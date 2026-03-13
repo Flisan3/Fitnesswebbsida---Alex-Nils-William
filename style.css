@@ -1,0 +1,72 @@
+*{
+    margin: 0;
+    padding: 0;
+    gap: 0;
+}
+
+body{
+    font-family: Arial, Helvetica, sans-serif;
+    background: #134074;
+    color: #EEF4ED;
+    margin:0;
+}
+
+main{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:100vh;
+}
+
+.meters{
+    display:flex;
+    flex-direction: column;
+    gap:80px;
+    width: 100%;
+    margin: 50px;
+}
+
+.calMeter,
+.proteinMeter{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+}
+
+.calMeter-header,
+.proteinMeter-header{
+    display:flex;
+    align-items:center;
+    gap:15px;
+}
+
+h2{
+    margin:0;
+}
+
+.meterCircle{
+    width:100%;
+    aspect-ratio:1 / 1;
+    max-width: 300px;
+    border-radius:50%;
+    border:28px solid #EEF4ED;
+    margin:20px 0;
+}
+
+/* controls */
+
+.meterControls form{
+    display:flex;
+    gap:10px;
+}
+
+input{
+    width:80px;
+    padding:8px;
+    text-align:center;
+}
+
+button{
+    padding:8px 12px;
+    cursor:pointer;
+}
