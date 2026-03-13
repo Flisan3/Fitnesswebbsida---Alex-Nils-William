@@ -7,7 +7,25 @@
 </head>
 <body>
     <main>
-        
+        <section>
+            <h2>Dagens schema</h2>
+
+            <div class="workout-content">
+                <ul id="exercise-list">
+                    <li>
+                        <input type="checkbox" id="ex1">
+                        <label for="ex1">Bänkpress - 3x10</label>
+                    </li>
+                </ul>
+
+                <div class="workout-button">
+                    <button onclick="addExercise()">Redigera övningar</button>
+                    <button class="finish-btn" onclick="finishWorkout()">Avsluta pass</button>
+                    <button>Redigera split/veckoschema</button>
+                </div>
+            </div>        
+        </section>
     </main>
+    <script src="index.js"></script>
 </body>
 </html>
