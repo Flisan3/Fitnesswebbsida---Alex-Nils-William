@@ -1,45 +1,69 @@
 let exercises = [
-    { name: "Bänkpress", sets: "3x10", done: false },
-    { name: "Lutande hantelpress", sets: "3x12", done: false },
-    { name: "Triceps pushdowns", sets: "4x15", done: false }
+    { name: "Bänkpress", info: "3x10", done: false },
+    { name: "Lutande hantlar", info: "3x12", done: false },
+    { name: "Pushdowns", info: "4x15", done: false }
 ];
 
 function render() {
-    const container = document.getElementById('exercise-list');
-    container.innerHTML = ''; 
+    const list = document.getElementById('exercise-list');
+    
+    // Om listan är tom
+    if (exercises.length === 0) {
+        list.innerHTML = `<div style="height:100%; display:flex; align-items:center; justify-content:center; text-align:center; color: var(--accent-light); font-weight:500;">
+            Lista över övningar<br>som kan checkas av</div>`;
+        return;
+    }
 
-    exercises.forEach((ex, index) => {
-        const div = document.createElement('div');
-        div.className = 'exercise-item';
+    list.innerHTML = '';
+    
+    // Rendera övningarna
+    exercises.forEach((ex, i) => {
+        const item = document.createElement('div');
+        item.className = 'ex-item';
         
-        div.innerHTML = `
-            <input type="checkbox" id="ex-${index}" ${ex.done ? 'checked' : ''}>
-            <label for="ex-${index}">
-                <strong>${ex.name}</strong> <span style="color: #666;">- ${ex.sets}</span>
+        // Dynamisk styling om övningen är klar
+        const textStyle = ex.done ? 'text-decoration: line-through; opacity: 0.5;' : '';
+
+        item.innerHTML = `
+            <input type="checkbox" id="check-${i}" ${ex.done ? 'checked' : ''}>
+            <label for="check-${i}" style="${textStyle} flex: 1; cursor: pointer;">
+                <strong>${ex.name}</strong> - ${ex.info}
             </label>
+            <button onclick="removeTask(${i})" style="background:none; border:none; cursor:pointer; font-size:1.2rem; color: var(--bg-darkest); opacity:0.6;">×</button>
         `;
-
-        div.querySelector('input').addEventListener('change', () => {
-            exercises[index].done = !exercises[index].done;
+        
+        // Klick på checkbox
+        item.querySelector('input').addEventListener('change', () => {
+            exercises[i].done = !exercises[i].done;
+            render();
         });
-
-        container.appendChild(div);
+        
+        list.appendChild(item);
     });
 }
 
-document.getElementById('finish-workout-btn').addEventListener('click', () => {
-    const completedCount = exercises.filter(ex => ex.done).length;
-    alert(`Bra jobbat! Du blev klar med ${completedCount} av ${exercises.length} övningar.`);
-});
-
 function editExercises() {
-    const name = prompt("Vad heter övningen?");
-    const sets = prompt("Hur många set/reps? (t.ex. 3x10)");
-    
-    if (name && sets) {
-        exercises.push({ name: name, sets: sets, done: false });
+    const name = prompt("Övningens namn:");
+    const info = prompt("Set/Reps (t.ex. 3x10):");
+    if (name && info) {
+        exercises.push({ name, info, done: false });
         render();
     }
 }
 
+function removeTask(index) {
+    exercises.splice(index, 1);
+    render();
+}
+
+document.getElementById('finish-btn').addEventListener('click', () => {
+    const doneCount = exercises.filter(e => e.done).length;
+    if (exercises.length === 0) {
+        alert("Lägg till övningar först!");
+    } else {
+        alert(`Bra jobbat! Du blev klar med ${doneCount} av ${exercises.length} övningar.`);
+    }
+});
+
+// Starta programmet
 render();

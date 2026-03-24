@@ -3,25 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fitness App - Schema</title>
+    <title>Dagens Schema</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <div class="workout-section">
-        <h3>Dagens schema:</h3>
-        
-        <div class="workout-layout">
-            <div class="exercise-box" id="exercise-list"></div>
+    <main class="center-container">
+        <section class="workout-card">
+            <h3 class="title">Dagens schema:</h3>
+            
+            <div class="layout-row">
+                <div class="exercise-display" id="exercise-list">
+                    </div>
 
-            <div class="button-group">
-                <button onclick="editExercises()">Redigera övningar</button>
-                <button class="finish-btn" id="finish-workout-btn">Avsluta pass</button>
-                <button>Redigera split/veckoschema</button>
-                <input type="text" placeholder="Snabbanteckning...">
+                <div class="action-sidebar">
+                    <button class="btn btn-outline" onclick="editExercises()">Redigera övningar</button>
+                    <button class="btn btn-solid" id="finish-btn">Avsluta pass</button>
+                    <button class="btn btn-outline small-text">Redigera split/veckoschema</button>
+                    <input type="text" class="note-input" placeholder="Snabbanteckning...">
+                </div>
             </div>
-        </div>
-    </div>
+        </section>
+    </main>
 
     <script src="index.js"></script>
 </body>
