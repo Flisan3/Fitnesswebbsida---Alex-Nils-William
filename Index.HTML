@@ -9,17 +9,35 @@
 
 </head>
 <body>
-    <main>
-        <header>
-            <button id="login">Login:</button>
-            <img src="Pic/logo-placeholder-image.png" alt="logo_placeholder" id="logo">
-        </header>
+    
+    <header class="navbar">
+        <div class="nav-left">
+            <h2>FitnessHub</h2>
+        </div>
 
-        <h2 id="name">FitnessHub</h2>
-
-        <nav>
-            <input id="search" type="text" placeholder="Search...">
+        <nav class="nav-menu" id="navMenu">
+            <a href="#">Hem</a>
+            <a href="#">Peter</a>
+            <a href="#">William</a>
+            <a href="#">Kalle</a>
         </nav>
-    </main>
+
+        <div class="nav-right">
+            <img src="" alt="Logo" class="logo">
+            <button class="login-btn">Logga in</button>
+        </div>
+
+        <div class="hamburger" id="hamburger">
+            ☰
+        </div>
+    </header>
+
+    <script>
+        const hamburger = document.getElementById("hamburger");
+        const navMenu = document.getElementById("navMenu");
+
+        hamburger.addEventListener("click", () => {
+        navMenu.classList.toggle("active");});
+    </script>
 </body>
 </html>
