@@ -1,13 +1,6 @@
 //Track active meter
 let activeMeter = null;
 
-// Exercise checklist data
-let exercises = [
-    { name: "Bänkpress", info: "3x10", done: false },
-    { name: "Lutande hantlar", info: "3x12", done: false },
-    { name: "Pushdowns", info: "4x15", done: false }
-];
-
 //Check if it is a new day and if so, reset values
 const today = new Date().toDateString();
 const lastDate = localStorage.getItem("lastDate");
@@ -136,8 +129,14 @@ document.getElementById("goalSave").addEventListener("click", () => {
     document.getElementById("goalModal").style.display = "none";
 });
 
-// Exercise Checklist Functions
-function renderExercises() {
+// ==== EXERCISE CHECKLIST ====
+let exercises = [
+    { name: "Bänkpress", info: "3x10", done: false },
+    { name: "Lutande hantlar", info: "3x12", done: false },
+    { name: "Pushdowns", info: "4x15", done: false }
+];
+
+function render() {
     const list = document.getElementById('exercise-list');
     
     // Om listan är tom
@@ -162,13 +161,13 @@ function renderExercises() {
             <label for="check-${i}" style="${textStyle} flex: 1; cursor: pointer;">
                 <strong>${ex.name}</strong> - ${ex.info}
             </label>
-            <button type="button" class="delete-btn" onclick="removeTask(${i})" style="background:none; border:none; cursor:pointer; font-size:1.2rem; color: var(--bg-darkest); opacity:0.6;">×</button>
+            <button onclick="removeTask(${i})" style="background:none; border:none; cursor:pointer; font-size:1.2rem; color: var(--bg-darkest); opacity:0.6;">×</button>
         `;
         
         // Klick på checkbox
         item.querySelector('input').addEventListener('change', () => {
             exercises[i].done = !exercises[i].done;
-            renderExercises();
+            render();
         });
         
         list.appendChild(item);
@@ -180,16 +179,15 @@ function editExercises() {
     const info = prompt("Set/Reps (t.ex. 3x10):");
     if (name && info) {
         exercises.push({ name, info, done: false });
-        renderExercises();
+        render();
     }
 }
 
 function removeTask(index) {
     exercises.splice(index, 1);
-    renderExercises();
+    render();
 }
 
-// Event listeners for exercise buttons
 if (document.getElementById('finish-btn')) {
     document.getElementById('finish-btn').addEventListener('click', () => {
         const doneCount = exercises.filter(e => e.done).length;
@@ -202,4 +200,5 @@ if (document.getElementById('finish-btn')) {
 }
 
 // Starta programmet
-renderExercises();
+render();
+});
