@@ -1,0 +1,250 @@
+*{
+    margin: 0;
+    padding: 0;
+    gap: 0;
+}
+
+body{
+    font-family: Arial, Helvetica, sans-serif;
+    background: #134074;
+    color: #EEF4ED;
+    border-radius: 20px;
+    padding: 30px;
+    margin:0;
+}
+
+main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px 0;
+}
+
+.meters{
+    display:flex;
+    flex-direction: column;
+    gap:80px;
+    width: 100%;
+    margin: 50px;
+}
+
+.calMeter,
+.proteinMeter{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap: 25px;
+}
+
+.calMeter-header,
+.proteinMeter-header {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    position: relative;
+    width: 100%;
+    max-width: 300px;
+}
+
+.calMeter-header h2,
+.proteinMeter-header h2 {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    margin: 0;
+}
+
+h2{
+    margin:0;
+}
+
+.meterCircle {
+    width: 300px;
+    height: 300px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    box-shadow: 0 0 25px rgba(141, 169, 196, 0.2);
+    transition: background 0.8s ease;
+}
+
+.meterCircle::after {
+    content: "";
+    position: absolute;
+    width: 70%;
+    height: 70%;
+    background: #134074;
+    border-radius: 50%;
+}
+
+.meterValue {
+    position: relative;
+    font-size: 2rem;
+    font-weight: bold;
+}
+
+.meterControls form{
+    display:flex;
+    gap:10px;
+}
+
+input{
+    width:80px;
+    padding:8px;
+    text-align:center;
+}
+
+button{
+    padding:8px 12px;
+    cursor:pointer;
+}
+
+.meterText {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 2;
+    font-size: 2rem;
+    font-weight: bold;
+    text-align: center;
+    transition: color 0.8s ease;
+}
+
+button {
+    padding: 10px 16px;
+    border-radius: 10px;
+    border: none;
+    background: #8DA9C4;
+    color: #0B2545;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+button:hover {
+    background: #EEF4ED;
+    transform: translateY(-2px);
+}
+
+button:active {
+    transform: translateY(1px);
+}
+
+.goalBtn {
+    width: 60px;
+    height: 60px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    color: #EEF4ED;
+
+    background: transparent;
+    border-radius: 50%;
+
+    cursor: pointer;
+    transition: all 0.25s ease;
+}
+
+.goalBtn:hover {
+    background: #0B2545;
+}
+
+.goalBtn svg {
+    fill: #8DA9C4;
+}
+
+input {
+    width: 80px;
+    padding: 10px;
+
+    border-radius: 10px;
+    border: none;
+
+    background: #EEF4ED;
+    color: #0B2545;
+
+    text-align: center;
+    font-weight: bold;
+}
+
+h2 {
+    color: #EEF4ED;
+    font-weight: 600;
+}
+
+.meterText {
+    color: #EEF4ED;
+    font-size: 2.2rem;
+}
+
+.goalModal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0,0,0,0.5);
+    justify-content: center;
+    align-items: center;
+    z-index: 100;
+}
+
+.goalModal .modalContent {
+    background: #13315C;
+    padding: 30px;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    min-width: 250px;
+}
+
+.goalModal input {
+    width: 100px;
+    padding: 8px;
+    border-radius: 10px;
+    border: none;
+    text-align: center;
+    font-weight: bold;
+}
+
+.modalButtons {
+    display: flex;
+    gap: 10px;
+}
+
+.modalButtons button {
+    background: #8DA9C4;
+    color: #0B2545;
+    border-radius: 10px;
+    padding: 8px 16px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.modalButtons button:hover {
+    background: #EEF4ED;
+}
+
+@media (min-width: 750px) {
+    .meters {
+        flex-direction: row;
+        justify-content: center;
+        align-items: flex-start;
+        gap: 100px;
+    }
+
+    .calMeter,
+    .proteinMeter {
+        flex: 1;
+        max-width: 350px;
+    }
+}
