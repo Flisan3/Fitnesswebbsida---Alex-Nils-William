@@ -1,3 +1,17 @@
+//Track active meter
+let activeMeter = null;
+
+//Check if it is a new day and if so, reset values
+const today = new Date().toDateString();
+const lastDate = localStorage.getItem("lastDate");
+
+if (lastDate !== today) {
+    localStorage.removeItem("value_calMeter");
+    localStorage.removeItem("value_proteinMeter");
+    localStorage.setItem("lastDate", today);
+}
+
+//Setup meters
 document.querySelectorAll(".calMeter, .proteinMeter").forEach(meter => {
     const minusBtn = meter.querySelector(".meterControls button:first-child");
     const plusBtn = meter.querySelector(".meterControls button:last-child");
@@ -6,79 +20,111 @@ document.querySelectorAll(".calMeter, .proteinMeter").forEach(meter => {
     const circle = meter.querySelector(".meterCircle");
     const valueText = meter.querySelector(".meterText");
 
-    let value = 0;
-    let goal = 100;
+    //Identify meter type
+    const type = meter.classList.contains("calMeter") ? "calMeter" : "proteinMeter";
 
-    //Updates the meters by comparing value to goal
+    //Load saved data
+    let value = parseInt(localStorage.getItem(`value_${type}`)) || 0;
+    let goal = parseInt(localStorage.getItem(`goal_${type}`)) || 100;
+
+    function save() {
+        localStorage.setItem(`value_${type}`, value);
+        localStorage.setItem(`goal_${type}`, goal);
+    }
+
+    //Update meter number text and styling
     function updateMeter() {
-    valueText.textContent = `${value} / ${goal}`;
+        valueText.textContent = `${value} / ${goal}`;
 
-    const targetPercent = Math.min((value / goal) * 100, 100);
-    let currentPercent = circle._percent || 0;
+        const targetPercent = Math.min((value / goal) * 100, 100);
+        let currentPercent = circle._percent || 0;
 
-    const step = () => {
-        const diff = targetPercent - currentPercent;
+        const step = () => {
+            const diff = targetPercent - currentPercent;
 
-        if (Math.abs(diff) < 0.5) {
-            currentPercent = targetPercent;
-        } else {
-            currentPercent += diff * 0.1;
-            requestAnimationFrame(step);
+            if (Math.abs(diff) < 0.5) {
+                currentPercent = targetPercent;
+            } else {
+                currentPercent += diff * 0.1;
+                requestAnimationFrame(step);
+            }
+
+            let fillColor = "#8DA9C4";
+
+        if (type === "calMeter" && value > goal) {
+            fillColor = "#FF4D4D";
         }
 
-        //Applies the styling
+        if (type === "proteinMeter" && value >= goal) {
+            fillColor = "#4CAF50";
+        }
 
         circle.style.background = `conic-gradient(
-            #8DA9C4 ${currentPercent}%,
+            ${fillColor} ${currentPercent}%,
             #0B2545 ${currentPercent}%
         )`;
 
-        circle._percent = currentPercent;
-    };
+        valueText.style.color = fillColor;
 
-    step();
+            circle._percent = currentPercent;
+        };
+
+        step();
+        save();
     }
 
-    //Get step from input and change the value depending on action
+    //Get step value
     function getStep() {
         return parseInt(input.value) || 0;
     }
 
+    //add step value
     plusBtn.addEventListener("click", () => {
         value += getStep();
         updateMeter();
     });
 
+    //remove step value
     minusBtn.addEventListener("click", () => {
         value = Math.max(0, value - getStep());
         updateMeter();
     });
 
-    input.addEventListener("input", () => {
-    });
-
-    //Make the modal show when button is pressed
+    //Open goal modal
     goalBtn.addEventListener("click", () => {
-    const modal = document.getElementById("goalModal");
-    const input = document.getElementById("goalInput");
-    modal.style.display = "flex";
-    input.value = "";
-    input.focus();
-    });
+        const modal = document.getElementById("goalModal");
+        const goalInput = document.getElementById("goalInput");
 
-    document.getElementById("goalCancel").addEventListener("click", () => {
-        document.getElementById("goalModal").style.display = "none";
-    });
+        //Store reference to meter
+        activeMeter = {
+            setGoal: (v) => {
+                goal = v;
+                save();
+            },
+            update: updateMeter
+        };
 
-    document.getElementById("goalSave").addEventListener("click", () => {
-    const newGoal = parseInt(document.getElementById("goalInput").value);
-    if (!isNaN(newGoal)) {
-        goal = newGoal;
-        updateMeter();
-    }
-
-    document.getElementById("goalModal").style.display = "none";
+        modal.style.display = "flex";
+        goalInput.value = goal;
+        goalInput.focus();
     });
 
     updateMeter();
+});
+
+
+// Modal buttons
+document.getElementById("goalCancel").addEventListener("click", () => {
+    document.getElementById("goalModal").style.display = "none";
+});
+
+document.getElementById("goalSave").addEventListener("click", () => {
+    const newGoal = parseInt(document.getElementById("goalInput").value);
+
+    if (!isNaN(newGoal) && activeMeter) {
+        activeMeter.setGoal(newGoal);
+        activeMeter.update();
+    }
+
+    document.getElementById("goalModal").style.display = "none";
 });
