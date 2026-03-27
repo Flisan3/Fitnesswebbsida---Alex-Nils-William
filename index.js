@@ -129,7 +129,6 @@ document.getElementById("goalSave").addEventListener("click", () => {
     document.getElementById("goalModal").style.display = "none";
 });
 
-// ==== EXERCISE CHECKLIST ====
 let exercises = [
     { name: "Bänkpress", info: "3x10", done: false },
     { name: "Lutande hantlar", info: "3x12", done: false },
@@ -188,17 +187,14 @@ function removeTask(index) {
     render();
 }
 
-if (document.getElementById('finish-btn')) {
-    document.getElementById('finish-btn').addEventListener('click', () => {
-        const doneCount = exercises.filter(e => e.done).length;
-        if (exercises.length === 0) {
-            alert("Lägg till övningar först!");
-        } else {
-            alert(`Bra jobbat! Du blev klar med ${doneCount} av ${exercises.length} övningar.`);
-        }
-    });
-}
+document.getElementById('finish-btn').addEventListener('click', () => {
+    const doneCount = exercises.filter(e => e.done).length;
+    if (exercises.length === 0) {
+        alert("Lägg till övningar först!");
+    } else {
+        alert(`Bra jobbat! Du blev klar med ${doneCount} av ${exercises.length} övningar.`);
+    }
+});
 
 // Starta programmet
 render();
-});

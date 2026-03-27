@@ -249,27 +249,44 @@ h2 {
     }
 }
 
-/* ===== EXERCISE CHECKLIST STYLES ===== */
+/* Färgpalett - Uppdelad i lager (djup) */
 :root {
-    --bg-darkest: #0B2545;
-    --bg-card: #13315C;
-    --bg-inner: #134074;
-    --accent-light: #8DA9C4;
-    --text-lightest: #EEF4ED;
+    --bg-darkest: #0B2545; /* Längst bak */
+    --bg-card: #13315C;    /* Mellanlager */
+    --bg-inner: #134074;   /* Inre lager */
+    --accent-light: #8DA9C4; /* Detaljer / Ljusare knappar */
+    --text-lightest: #EEF4ED; /* Längst fram (Text & Huvudknapp) */
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: var(--bg-darkest);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: var(--text-lightest);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 10px;
 }
 
 .center-container {
     width: 100%;
     max-width: 800px;
-    margin: 0 auto;
 }
 
+/* Huvudkortet */
 .workout-card {
     background: var(--bg-card);
     border: 1px solid var(--bg-inner);
-    border-radius: 16px;
+    border-radius: 16px; /* Mjukare hörn */
     padding: 24px;
-    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4); /* Ger en svävande effekt */
 }
 
 .title {
@@ -280,21 +297,24 @@ h2 {
     text-shadow: 0 2px 4px rgba(0,0,0,0.2);
 }
 
+/* Layouten (sida-vid-sida) */
 .layout-row {
     display: flex;
     flex-direction: row;
     gap: 20px;
 }
 
+/* Vänster box (Listan) */
 .exercise-display {
     flex: 2;
     background-color: var(--bg-inner);
     border-radius: 12px;
     min-height: 220px;
     padding: 16px;
-    box-shadow: inset 0 4px 10px rgba(0,0,0,0.15);
+    box-shadow: inset 0 4px 10px rgba(0,0,0,0.15); /* Inre skugga för djup */
 }
 
+/* Enskild övning (Ligger längst fram i listan) */
 .ex-item {
     background-color: var(--accent-light);
     color: var(--bg-darkest);
@@ -320,11 +340,7 @@ h2 {
     cursor: pointer;
 }
 
-.ex-item label {
-    flex: 1;
-    cursor: pointer;
-}
-
+/* Höger kolumn (Knappar) */
 .action-sidebar {
     flex: 1;
     display: flex;
@@ -332,6 +348,7 @@ h2 {
     gap: 12px;
 }
 
+/* Knappar */
 .btn {
     padding: 12px;
     cursor: pointer;
@@ -342,6 +359,7 @@ h2 {
     font-size: 0.95rem;
 }
 
+/* Ljus knapp (sekundär) */
 .btn-outline {
     background: transparent;
     border: 2px solid var(--accent-light);
@@ -353,6 +371,7 @@ h2 {
     color: var(--bg-darkest);
 }
 
+/* Ljusaste knappen (Primär, poppar mest) */
 .btn-solid {
     background: var(--text-lightest);
     color: var(--bg-darkest);
@@ -364,11 +383,7 @@ h2 {
     box-shadow: 0 6px 15px rgba(238, 244, 237, 0.3);
 }
 
-.btn.small-text {
-    font-size: 0.85rem;
-    padding: 10px;
-}
-
+/* Inmatningsfält */
 .note-input {
     padding: 12px;
     background-color: var(--bg-inner);
@@ -377,10 +392,46 @@ h2 {
     border-radius: 8px;
     width: 100%;
     outline: none;
-    font-family: Arial, Helvetica, sans-serif;
 }
 
 .note-input::placeholder {
     color: var(--accent-light);
     opacity: 0.7;
+}
+
+.note-input:focus {
+    border-color: var(--text-lightest);
+}
+
+/* Mobil-optimering: Krymper allt proportionerligt utan att bryta layouten */
+@media (max-width: 650px) {
+    .workout-card {
+        padding: 15px;
+    }
+    .layout-row {
+        gap: 10px;
+    }
+    .exercise-display {
+        padding: 10px;
+    }
+    .btn {
+        padding: 8px;
+        font-size: 0.75rem;
+    }
+    .title {
+        font-size: 1.1rem;
+        margin-bottom: 12px;
+    }
+    .ex-item {
+        padding: 8px 10px;
+        font-size: 0.8rem;
+    }
+    .ex-item input[type="checkbox"] {
+        width: 16px;
+        height: 16px;
+    }
+    .note-input {
+        padding: 8px;
+        font-size: 0.8rem;
+    }
 }
