@@ -19,8 +19,10 @@ main {
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-direction: column;
     min-height: 100vh;
     padding: 20px 0;
+    margin: 50px;
 }
 
 .meters{
@@ -93,17 +95,6 @@ h2{
     gap:10px;
 }
 
-input{
-    width:80px;
-    padding:8px;
-    text-align:center;
-}
-
-button{
-    padding:8px 12px;
-    cursor:pointer;
-}
-
 .meterText {
     position: absolute;
     top: 50%;
@@ -161,7 +152,7 @@ button:active {
     fill: #8DA9C4;
 }
 
-input {
+input{
     width: 80px;
     padding: 10px;
 
@@ -178,11 +169,6 @@ input {
 h2 {
     color: #EEF4ED;
     font-weight: 600;
-}
-
-.meterText {
-    color: #EEF4ED;
-    font-size: 2.2rem;
 }
 
 .goalModal {
@@ -260,26 +246,11 @@ h2 {
     --text-lightest: #EEF4ED; /* Längst fram (Text & Huvudknapp) */
 }
 
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-}
-
-body {
-    background-color: var(--bg-darkest);
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    color: var(--text-lightest);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    padding: 10px;
-}
-
 .center-container {
     width: 100%;
     max-width: 800px;
+    margin: 0 auto;
+    align-items: center;
 }
 
 /* Huvudkortet */
@@ -394,6 +365,7 @@ body {
     border-radius: 8px;
     width: 100%;
     outline: none;
+    box-sizing: border-box;
 }
 
 .note-input::placeholder {
