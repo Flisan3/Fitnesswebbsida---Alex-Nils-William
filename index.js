@@ -4,6 +4,7 @@
 let activeMeter = null;
 
 //Check if it is a new day and if so, reset values
+const todayExercisesKey = "exercises_" + new Date().toDateString();
 const today = new Date().toDateString();
 const lastDate = localStorage.getItem("lastDate");
 
@@ -131,11 +132,15 @@ document.getElementById("goalSave").addEventListener("click", () => {
     document.getElementById("goalModal").style.display = "none";
 });
 
-let exercises = [
+let exercises = JSON.parse(localStorage.getItem(todayExercisesKey)) || [
     { name: "Bänkpress", info: "3x10", done: false },
     { name: "Lutande hantlar", info: "3x12", done: false },
     { name: "Pushdowns", info: "4x15", done: false }
 ];
+
+function saveExercises() {
+    localStorage.setItem(todayExercisesKey, JSON.stringify(exercises));
+}
 
 function render() {
     const list = document.getElementById('exercise-list');
@@ -168,6 +173,7 @@ function render() {
         // Klick på checkbox
         item.querySelector('input').addEventListener('change', () => {
             exercises[i].done = !exercises[i].done;
+            saveExercises(); // HÄR
             render();
         });
         
@@ -180,12 +186,14 @@ function editExercises() {
     const info = prompt("Set/Reps (t.ex. 3x10):");
     if (name && info) {
         exercises.push({ name, info, done: false });
+        saveExercises(); // HÄR
         render();
     }
 }
 
 function removeTask(index) {
     exercises.splice(index, 1);
+    saveExercises(); // HÄR
     render();
 }
 
