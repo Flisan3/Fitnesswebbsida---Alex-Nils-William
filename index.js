@@ -200,3 +200,11 @@ document.getElementById('finish-btn').addEventListener('click', () => {
 
 // Starta programmet
 render();
+
+
+// Öppnar och stänger Hamburgern för mobil läge
+const hamburger = document.getElementById("hamburger");
+const navMenu = document.getElementById("navMenu");
+
+hamburger.addEventListener("click", () => {
+navMenu.classList.toggle("active");});
