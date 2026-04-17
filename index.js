@@ -4,12 +4,17 @@
 let activeMeter = null;
 
 //Check if it is a new day and if so, reset values
-const today = new Date().toDateString();
+const today = new Date().toISOString().split("T")[0];
 const lastDate = localStorage.getItem("lastDate");
+
+if (lastDate && lastDate !== today) {
+    saveDailyStats();
+}
 
 if (lastDate !== today) {
     localStorage.removeItem("value_calMeter");
     localStorage.removeItem("value_proteinMeter");
+
     localStorage.setItem("lastDate", today);
 }
 
@@ -198,5 +203,87 @@ document.getElementById('finish-btn').addEventListener('click', () => {
     }
 });
 
+function saveDailyStats() {
+    const today = new Date().toISOString().split("T")[0];
+
+    let history = JSON.parse(localStorage.getItem("history")) || [];
+
+    history = history.filter(entry => entry.date !== today);
+
+    history.push({
+        date: today,
+        calories: parseInt(localStorage.getItem("value_calMeter")) || 0,
+        protein: parseInt(localStorage.getItem("value_proteinMeter")) || 0
+    });
+
+    localStorage.setItem("history", JSON.stringify(history));
+}
+
+function renderChart() {
+    const history = JSON.parse(localStorage.getItem("history")) || [];
+
+    const labels = history.map(h => h.date);
+    const calories = history.map(h => h.calories);
+    const protein = history.map(h => h.protein);
+
+    const ctx = document.getElementById("statsChart");
+
+    if (history.length === 0) {
+    history.push(
+        { date: "2026-04-14", calories: 1800, protein: 120 },
+        { date: "2026-04-15", calories: 2200, protein: 140 },
+        { date: "2026-04-16", calories: 2000, protein: 130 }
+    );
+}
+
+    new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: labels,
+            datasets: [
+                {
+                    label: 'Kalorier',
+                    data: calories,
+                    tension: 0.3
+                },
+                {
+                    label: 'Protein',
+                    data: protein,
+                    tension: 0.3
+                }
+            ]
+        },
+        options: {
+    responsive: true,
+    plugins: {
+        legend: {
+            labels: {
+                color: "#EEF4ED" // text color (matches your UI)
+            }
+        }
+    },
+    scales: {
+        x: {
+            ticks: {
+                color: "#EEF4ED"
+            },
+            grid: {
+                color: "rgba(238, 244, 237, 0.1)"
+            }
+        },
+        y: {
+            ticks: {
+                color: "#EEF4ED"
+            },
+            grid: {
+                color: "rgba(238, 244, 237, 0.1)"
+            }
+        }
+    }
+}
+    });
+}
+
 // Starta programmet
 render();
+renderChart();
