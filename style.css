@@ -405,6 +405,66 @@ body {
     border-color: var(--text-lightest);
 }
 
+/* Kontaktformulär som matchar resten av sidan */
+.contact-card {
+    max-width: 620px;
+    margin: 0 auto;
+}
+
+.contact-form {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.contact-form label {
+    color: var(--accent-light);
+    font-size: 0.95rem;
+    font-weight: 600;
+}
+
+.contact-form input,
+.contact-form textarea {
+    width: 100%;
+    padding: 14px;
+    border-radius: 14px;
+    border: 1px solid rgba(141, 169, 196, 0.35);
+    background: rgba(238, 244, 237, 0.08);
+    color: var(--text-lightest);
+    outline: none;
+    font-size: 0.95rem;
+}
+
+.contact-form input:focus,
+.contact-form textarea:focus {
+    border-color: var(--text-lightest);
+    box-shadow: 0 0 0 3px rgba(141, 169, 196, 0.18);
+}
+
+.contact-form textarea {
+    min-height: 150px;
+    resize: vertical;
+}
+
+.submit-btn {
+    width: 100%;
+    background: var(--text-lightest);
+    color: var(--bg-darkest);
+    border-radius: 14px;
+    padding: 14px;
+    font-weight: 700;
+}
+
+.submit-btn:hover {
+    transform: translateY(-1px);
+}
+
 /* Mobil-optimering: Krymper allt proportionerligt utan att bryta layouten */
 @media (max-width: 650px) {
     .workout-card {
