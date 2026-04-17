@@ -17,69 +17,71 @@ body{
     margin:0;
 }
 
-nav {
+.fh-navbar {
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 15px 30px;
     background-color: rgb(11, 37, 69);
     position: relative;
+    font-family: Arial, Helvetica, sans-serif;
 }
 
-.nav-left h2 {
+
+.fh-navbar__title {
     color: rgb(238, 244, 237);
 }
 
-.nav-menu {
+.fh-navbar__menu {
     display: flex;
     gap: 20px;
 }
 
-.nav-menu a {
+.fh-navbar__link {
     text-decoration: none;
     color: white;
     transition: 0.3s;
     font-size: 1.25rem;
-    margin-left: 1.15rem;
-    margin-right: 1.15rem;
+    margin: 0 1.15rem;
 }
 
-.nav-menu a:hover {
+.fh-navbar__link:hover {
     color: rgb(141, 169, 196);
 }
 
-.nav-right {
+.fh-navbar__right {
     display: flex;
     flex-direction: column;
     align-items: center;
 }
 
-.logo {
+.fh-navbar__logo {
     width: 40px;
     margin-bottom: 5px;
 }
 
-.logo-btn {
-    background-color: rgb(141, 169, 196);
+.fh-navbar__login-btn {
+    background-color: white;
     border: none;
-    padding: 8pc 15px;
+    padding: 8px 15px;
     border-radius: 5px;
     cursor: pointer;
     font-weight: bold;
 }
 
-.login-btn:hover {
+.fh-navbar__login-btn:hover {
     background-color: rgb(141, 169, 196);
 }
 
-.hamburger {
+
+.fh-navbar__hamburger {
     display: none;
     font-size: 24px;
     cursor: pointer;
 }
 
 @media (max-width: 768px) {
-    .nav-menu {
+    .fh-navbar__menu {
         position: absolute;
         top: 70px;
         left: 0;
@@ -90,13 +92,13 @@ nav {
         display: none;
     }
 
-    .nav-menu.active {
-    display: flex;
-}
+    .fh-navbar__menu.active {
+        display: flex;
+    }
 
-.hamburger {
-    display: block;
-}
+    .fh-navbar__hamburger {
+        display: block;
+    }
 }
 
 main {
