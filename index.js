@@ -4,12 +4,17 @@
 let activeMeter = null;
 
 //Check if it is a new day and if so, reset values
-const today = new Date().toDateString();
+const today = new Date().toISOString().split("T")[0];
 const lastDate = localStorage.getItem("lastDate");
+
+if (lastDate && lastDate !== today) {
+    saveDailyStats();
+}
 
 if (lastDate !== today) {
     localStorage.removeItem("value_calMeter");
     localStorage.removeItem("value_proteinMeter");
+
     localStorage.setItem("lastDate", today);
 }
 
@@ -198,9 +203,56 @@ document.getElementById('finish-btn').addEventListener('click', () => {
     }
 });
 
+function saveDailyStats() {
+    //Sparar kalorie och protein-värden i en historik lokalt.
+    const today = new Date().toISOString().split("T")[0];
+
+    let history = JSON.parse(localStorage.getItem("history")) || [];
+
+    history = history.filter(entry => entry.date !== today);
+
+    history.push({
+        date: today,
+        calories: parseInt(localStorage.getItem("value_calMeter")) || 0,
+        protein: parseInt(localStorage.getItem("value_proteinMeter")) || 0
+    });
+
+    localStorage.setItem("history", JSON.stringify(history));
+}
+
+function renderChart() {
+    //Renderar ut ett diagram med hjälp av Chart.js
+    let history = JSON.parse(localStorage.getItem("history")) || [];
+
+    const labels = history.map(h => h.date);
+    const calories = history.map(h => h.calories);
+    const protein = history.map(h => h.protein);
+
+    const ctx = document.getElementById("statsChart").getContext("2d");
+
+    new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels,
+            datasets: [
+                {
+                    label: 'Kalorier',
+                    data: calories,
+                    tension: 0
+                },
+                {
+                    label: 'Protein',
+                    data: protein,
+                    tension: 0
+                }
+            ]
+        }
+    });
+}
+
 // Starta programmet
 render();
-
+renderChart();
 
 // Öppnar och stänger Hamburgern för mobil läge
 const hamburger = document.getElementById("hamburger");

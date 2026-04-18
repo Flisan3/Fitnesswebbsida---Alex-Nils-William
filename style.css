@@ -463,6 +463,20 @@ h2 {
     border-color: var(--text-lightest);
 }
 
+.diagram {
+    max-width: 800px;
+    margin: 40px auto;
+    background: var(--bg-card);
+    border-radius: 16px;
+    padding: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+}
+
+#statsChart {
+    width: 100%;
+    height: 300px;
+}
+
 /* Mobil-optimering: Krymper allt proportionerligt utan att bryta layouten */
 @media (max-width: 650px) {
     .workout-card {
