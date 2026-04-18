@@ -254,9 +254,28 @@ function renderChart() {
 render();
 renderChart();
 
-// Öppnar och stänger Hamburgern för mobil läge
-const hamburger = document.getElementById("hamburger");
-const navMenu = document.getElementById("navMenu");
+const hamburger = document.getElementById("fhHamburger");
+const navMenu = document.getElementById("fhNavMenu");
 
-hamburger.addEventListener("click", () => {
-navMenu.classList.toggle("active");});
+if (hamburger && navMenu) {
+    hamburger.addEventListener("click", () => {
+        navMenu.classList.toggle("active");
+        hamburger.classList.toggle("open");
+    });
+
+    // Close menu when clicking a link
+    document.querySelectorAll(".fh-navbar__link").forEach(link => {
+        link.addEventListener("click", () => {
+            navMenu.classList.remove("active");
+            hamburger.classList.remove("open");
+        });
+    });
+
+    // Close when clicking outside
+    document.addEventListener("click", (e) => {
+        if (!navMenu.contains(e.target) && !hamburger.contains(e.target)) {
+            navMenu.classList.remove("active");
+            hamburger.classList.remove("open");
+        }
+    });
+}
