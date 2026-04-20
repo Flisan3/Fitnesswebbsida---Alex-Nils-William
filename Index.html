@@ -111,6 +111,31 @@
             </div>
         </div>
     </div>
+
+<div class="exerciseModal" id="exerciseModal">
+    <div class="modalContent">
+        <h3>Lägg till övning</h3>
+
+        <input type="text" id="exName" placeholder="Övningens namn">
+        <input type="number" id="exSets" placeholder="Antal set" min="1">
+        <input type="number" id="exReps" placeholder="Antal reps" min="1">
+
+        <div class="modalButtons">
+            <button id="exCancel">Avbryt</button>
+            <button id="exSave">Spara</button>
+        </div>
+    </div>
+</div>
+
+<div class="finishModal" id="finishModal">
+    <div class="modalContent finishContent">
+        <h2 class="finishTitle">Bra jobbat</h2>
+        <p id="finishMessage"></p>
+        <button id="finishClose" class="btn btn-solid">Stäng</button>
+    </div>
+</div>
+
+</div>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="index.js"></script>
 </body>

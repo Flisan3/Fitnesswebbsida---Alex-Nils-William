@@ -136,71 +136,119 @@ document.getElementById("goalSave").addEventListener("click", () => {
     document.getElementById("goalModal").style.display = "none";
 });
 
-let exercises = [
-    { name: "Bänkpress", info: "3x10", done: false },
-    { name: "Lutande hantlar", info: "3x12", done: false },
-    { name: "Pushdowns", info: "4x15", done: false }
+let exercises = JSON.parse(localStorage.getItem("exercises")) || [
+    { name: "Bänkpress", sets: 3, reps: 10, done: false },
+    { name: "Lutande hantlar", sets: 3, reps: 12, done: false },
+    { name: "Pushdowns", sets: 4, reps: 15, done: false }
 ];
+
+function saveExercises() {
+    localStorage.setItem("exercises", JSON.stringify(exercises));
+}
 
 function render() {
     const list = document.getElementById('exercise-list');
-    
-    // Om listan är tom
+
     if (exercises.length === 0) {
-        list.innerHTML = `<div style="height:100%; display:flex; align-items:center; justify-content:center; text-align:center; color: var(--accent-light); font-weight:500;">
-            Lista över övningar<br>som kan checkas av</div>`;
+        list.innerHTML = `<div style="height:100%; display:flex; align-items:center; justify-content:center; text-align:center; color: var(--accent-light); font-weight:500;">Lista över övningar<br>som kan checkas av</div>`;
         return;
     }
 
     list.innerHTML = '';
-    
-    // Rendera övningarna
+
     exercises.forEach((ex, i) => {
         const item = document.createElement('div');
         item.className = 'ex-item';
-        
-        // Dynamisk styling om övningen är klar
+
         const textStyle = ex.done ? 'text-decoration: line-through; opacity: 0.5;' : '';
 
         item.innerHTML = `
             <input type="checkbox" id="check-${i}" ${ex.done ? 'checked' : ''}>
             <label for="check-${i}" style="${textStyle} flex: 1; cursor: pointer;">
-                <strong>${ex.name}</strong> - ${ex.info}
+                <strong>${ex.name}</strong> - ${ex.sets}x${ex.reps}
             </label>
             <button onclick="removeTask(${i})" style="background:none; border:none; cursor:pointer; font-size:1.2rem; color: var(--bg-darkest); opacity:0.6;">×</button>
         `;
-        
-        // Klick på checkbox
+
         item.querySelector('input').addEventListener('change', () => {
             exercises[i].done = !exercises[i].done;
+            saveExercises();
             render();
         });
-        
+
         list.appendChild(item);
     });
 }
 
 function editExercises() {
-    const name = prompt("Övningens namn:");
-    const info = prompt("Set/Reps (t.ex. 3x10):");
-    if (name && info) {
-        exercises.push({ name, info, done: false });
-        render();
-    }
+    document.getElementById("exerciseModal").style.display = "flex";
 }
 
 function removeTask(index) {
     exercises.splice(index, 1);
+    saveExercises();
     render();
 }
 
-document.getElementById('finish-btn').addEventListener('click', () => {
-    const doneCount = exercises.filter(e => e.done).length;
-    if (exercises.length === 0) {
-        alert("Lägg till övningar först!");
-    } else {
-        alert(`Bra jobbat! Du blev klar med ${doneCount} av ${exercises.length} övningar.`);
+document.addEventListener("DOMContentLoaded", () => {
+
+    const finishBtn = document.getElementById('finish-btn');
+    const finishModal = document.getElementById("finishModal");
+    const finishMessage = document.getElementById("finishMessage");
+    const finishClose = document.getElementById("finishClose");
+
+    if (finishBtn) {
+        finishBtn.addEventListener('click', () => {
+            const doneCount = exercises.filter(e => e.done).length;
+
+            if (exercises.length === 0) {
+                finishMessage.textContent = "Lägg till övningar först!";
+            } else {
+                finishMessage.textContent =
+                    `Du blev klar med ${doneCount} av ${exercises.length} övningar.`;
+            }
+
+            finishModal.style.display = "flex";
+        });
     }
+
+    if (finishClose) {
+        finishClose.addEventListener("click", () => {
+            finishModal.style.display = "none";
+        });
+    }
+
+});
+
+document.getElementById("exCancel").addEventListener("click", () => {
+    document.getElementById("exerciseModal").style.display = "none";
+});
+
+document.getElementById("exSave").addEventListener("click", () => {
+    const name = document.getElementById("exName").value.trim();
+    const sets = parseInt(document.getElementById("exSets").value);
+    const reps = parseInt(document.getElementById("exReps").value);
+
+    if (!name || isNaN(sets) || isNaN(reps) || sets <= 0 || reps <= 0) {
+        alert("Fyll i giltiga värden!");
+        return;
+    }
+
+    exercises.push({
+        name,
+        sets,
+        reps,
+        done: false
+    });
+
+    saveExercises();
+    render();
+
+    document.getElementById("exName").value = "";
+    document.getElementById("exSets").value = "";
+    document.getElementById("exReps").value = "";
+
+    document.getElementById("exerciseModal").style.display = "none";
 });
 
 function saveDailyStats() {
