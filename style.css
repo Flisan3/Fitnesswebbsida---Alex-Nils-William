@@ -25,6 +25,7 @@ body{
     background-color: rgb(11, 37, 69);
     position: relative;
     font-family: Arial, Helvetica, sans-serif;
+    border-radius: 10px;
 }
 
 
@@ -51,8 +52,9 @@ body{
 
 .fh-navbar__right {
     display: flex;
-    flex-direction: column;
+    flex-direction: row; 
     align-items: center;
+    gap: 10px; 
 }
 
 .fh-navbar__logo {
@@ -67,6 +69,19 @@ body{
     border-radius: 5px;
     cursor: pointer;
     font-weight: bold;
+}
+
+.fh-navbar__right svg {
+    width: 28px;
+    height: 28px;
+    fill: #8DA9C4;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+.fh-navbar__right svg:hover {
+    fill: #EEF4ED;
+    transform: scale(1.1);
 }
 
 .fh-navbar__login-btn:hover {
