@@ -89,22 +89,23 @@ document.querySelectorAll(".calMeter, .proteinMeter").forEach(meter => {
                 requestAnimationFrame(step);
             }
 
-            let fillColor = "#8DA9C4";
+            let fillColor = "#4DA3FF";
 
-        if (type === "calMeter" && value > goal) {
-            fillColor = "#FF4D4D";
-        }
+            if (type === "calMeter" && value > goal) {
+                fillColor = "#1E6FD9";
+            }
 
-        if (type === "proteinMeter" && value >= goal) {
-            fillColor = "#4CAF50";
-        }
+            if (type === "proteinMeter" && value >= goal) {
+                fillColor = "#63B3FF";
+            }
 
         circle.style.background = `conic-gradient(
-            ${fillColor} ${currentPercent}%,
-            #0B2545 ${currentPercent}%
-        )`;
+        #63B3FF 0%,
+        #1E6FD9 ${currentPercent}%,
+        #0B2545 ${currentPercent}%
+)`;
 
-        valueText.style.color = fillColor;
+        valueText.style.color = "#EAF2FF";
 
             circle._percent = currentPercent;
         };
