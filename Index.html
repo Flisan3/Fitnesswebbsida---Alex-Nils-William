@@ -16,10 +16,9 @@
     </div>
 
     <nav class="fh-navbar__menu" id="fhNavMenu">
-        <a href="#" class="fh-navbar__link">Home</a>
+        <a href="Index.html" class="fh-navbar__link">Home</a>
         <a href="#" class="fh-navbar__link">Contact</a>
-        <a href="#" class="fh-navbar__link">About us</a>
-        <a href="#" class="fh-navbar__link">Kalle</a>
+        <a href="AboutUs.html" class="fh-navbar__link">About us</a>
     </nav>
 
     <div class="fh-navbar__right">
@@ -78,25 +77,25 @@
                 </div>
             </div>
         </section>
-    </main>
 
-    <div class="center-container">
-    <section class="workout-card">
-        <h3 class="title">Dagens schema:</h3>
-        
-        <div class="layout-row">
-            <div class="exercise-display" id="exercise-list">
+        <div class="center-container">
+            <section class="workout-card">
+                <h3 class="title">Dagens schema:</h3>
+                
+                <div class="layout-row">
+                    <div class="exercise-display" id="exercise-list">
+                        </div>
+
+                    <div class="action-sidebar">
+                        <button class="btn btn-outline" onclick="editExercises()">Redigera övningar</button>
+                        <button class="btn btn-solid" id="finish-btn">Avsluta pass</button>
+                        <button class="btn btn-outline small-text">Redigera split/veckoschema</button>
+                        <input type="text" class="note-input" placeholder="Snabbanteckning...">
+                    </div>
                 </div>
-
-            <div class="action-sidebar">
-                <button class="btn btn-outline" onclick="editExercises()">Redigera övningar</button>
-                <button class="btn btn-solid" id="finish-btn">Avsluta pass</button>
-                <button class="btn btn-outline small-text">Redigera split/veckoschema</button>
-                <input type="text" class="note-input" placeholder="Snabbanteckning...">
-            </div>
+            </section>
         </div>
-    </section>
-    </div>
+    </main>
 
     <div class="diagram">
         <h1>Näringsintag</h1>

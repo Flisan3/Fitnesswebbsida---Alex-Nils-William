@@ -7,8 +7,41 @@ let activeMeter = null;
 const today = new Date().toISOString().split("T")[0];
 const lastDate = localStorage.getItem("lastDate");
 
+const hamburger = document.getElementById("fhHamburger");
+const navMenu = document.getElementById("fhNavMenu");
+
+if (hamburger && navMenu) {
+    hamburger.addEventListener("click", () => {
+        navMenu.classList.toggle("active");
+        hamburger.classList.toggle("open");
+    });
+
+    // Close menu when clicking a link
+    document.querySelectorAll(".fh-navbar__link").forEach(link => {
+        link.addEventListener("click", () => {
+            navMenu.classList.remove("active");
+            hamburger.classList.remove("open");
+        });
+    });
+
+    // Close when clicking outside
+    document.addEventListener("click", (e) => {
+        if (!navMenu.contains(e.target) && !hamburger.contains(e.target)) {
+            navMenu.classList.remove("active");
+            hamburger.classList.remove("open");
+        }
+    });
+}
+
 if (lastDate && lastDate !== today) {
     saveDailyStats();
+
+    let exercises = JSON.parse(localStorage.getItem("exercises")) || [];
+    exercises = exercises.map(ex => ({
+        ...ex,
+        done: false
+    }));
+    localStorage.setItem("exercises", JSON.stringify(exercises));
 }
 
 if (lastDate !== today) {
@@ -302,120 +335,3 @@ function renderChart() {
 // Starta programmet
 render();
 renderChart();
-
-const hamburger = document.getElementById("fhHamburger");
-const navMenu = document.getElementById("fhNavMenu");
-
-if (hamburger && navMenu) {
-    hamburger.addEventListener("click", () => {
-        navMenu.classList.toggle("active");
-        hamburger.classList.toggle("open");
-    });
-
-    // Close menu when clicking a link
-    document.querySelectorAll(".fh-navbar__link").forEach(link => {
-        link.addEventListener("click", () => {
-            navMenu.classList.remove("active");
-            hamburger.classList.remove("open");
-        });
-    });
-
-    // Close when clicking outside
-    document.addEventListener("click", (e) => {
-        if (!navMenu.contains(e.target) && !hamburger.contains(e.target)) {
-            navMenu.classList.remove("active");
-            hamburger.classList.remove("open");
-        }
-    });
-}
-
-
-const loginBtn = document.querySelector(".fh-navbar__login-btn");
-const loginModal = document.getElementById("loginModal");
-
-const loginUser = document.getElementById("loginUser");
-const loginPass = document.getElementById("loginPass");
-
-const loginSubmit = document.getElementById("loginSubmit");
-const loginCancel = document.getElementById("loginCancel");
-
-// Check if user already logged in
-let currentUser = localStorage.getItem("currentUser");
-
-updateLoginUI();
-
-loginBtn.addEventListener("click", () => {
-    if (currentUser) {
-        // Logga ut
-        localStorage.removeItem("currentUser");
-        currentUser = null;
-        updateLoginUI();
-    } else {
-        loginModal.style.display = "flex";
-    }
-});
-
-loginCancel.addEventListener("click", () => {
-    loginModal.style.display = "none";
-});
-
-loginSubmit.addEventListener("click", () => {
-    const username = loginUser.value.trim();
-    const password = loginPass.value.trim();
-
-    if (!username || !password) {
-        alert("Fyll i alla fält!");
-        return;
-    }
-
-    let users = JSON.parse(localStorage.getItem("users")) || {};
-
-    // skapa konto om det inte finns
-    if (!users[username]) {
-        users[username] = password;
-    } else {
-        if (users[username] !== password) {
-            alert("Fel lösenord!");
-            return;
-        }
-    }
-
-    localStorage.setItem("users", JSON.stringify(users));
-    localStorage.setItem("currentUser", username);
-
-    currentUser = username;
-
-    loginModal.style.display = "none";
-    loginUser.value = "";
-    loginPass.value = "";
-
-    updateLoginUI();
-});
-
-function updateLoginUI() {
-    if (currentUser) {
-        loginBtn.textContent = `Logga ut (${currentUser})`;
-    } else {
-        loginBtn.textContent = "Logga in";
-    }
-}
-
-// ===== SCROLL LOCK SYSTEM =====
-
-let scrollY = 0;
-
-function lockScroll() {
-    scrollY = window.scrollY;
-
-    document.body.classList.add("modal-open");
-    document.body.style.top = `-${scrollY}px`;
-}
-
-function unlockScroll() {
-    document.body.classList.remove("modal-open");
-
-    window.scrollTo(0, scrollY);
-
-    document.body.style.top = "";
-}
-

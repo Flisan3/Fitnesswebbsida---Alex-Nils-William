@@ -617,6 +617,18 @@ h2 {
 
 @media (max-width: 768px) {
 
+     .layout-row {
+        flex-direction: column;
+    }
+
+    .action-sidebar {
+        width: 100%;
+    }
+
+    .btn {
+        width: 100%;
+    }
+
     body {
         padding: 15px;
     }
@@ -733,86 +745,29 @@ h2 {
     }
 }
 
-.loginModal {
-    display: none;
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.6);
-    justify-content: center;
-    align-items: center;
-    z-index: 300;
-}
 
-.loginModal .modalContent {
-    background: #13315C;
-    padding: 30px;
-    border-radius: 20px;
+.about-page {
     display: flex;
-    flex-direction: column;
-    gap: 12px;
-    min-width: 280px;
+    justify-content: center;
+    padding: 30px 15px;
+    margin: 0px;
 }
 
-.loginModal input {
-    width: 100%;
-    padding: 12px;
-    border-radius: 10px;
-    border: none;
-    background: #EEF4ED;
-    color: #0B2545;
-    font-weight: bold;
-}
-
-.loginInfo {
-    font-size: 0.8rem;
-    color: #8DA9C4;
-    text-align: center;
-}
-
-/* LOCK SCROLL */
-body.modal-open {
-    overflow: hidden;
-    position: fixed;
+.about-content {
+    max-width: 1000px;
     width: 100%;
 }
 
-.loginModal {
-    backdrop-filter: blur(6px);
+.about-content h1 {
+    font-size: 3rem;
+    margin-bottom: 12px;
+    color: #EEF4ED;
 }
 
-.calMeter,
-.proteinMeter {
-    filter: drop-shadow(0 0 20px rgba(77, 163, 255, 0.15));
-}
-
-.goalModal .modalContent,
-.exerciseModal .modalContent,
-.loginModal .modalContent {
-    background: rgba(12, 30, 55, 0.95);
-    backdrop-filter: blur(12px);
-
-    border: 1px solid rgba(77,163,255,0.15);
-
-    box-shadow: 0 0 30px rgba(77,163,255,0.15);
-}
-
-.fh-highlight {
-    color: #4DA3FF;
-
-    text-shadow: 
-        0 0 8px rgba(77,163,255,0.6),
-        0 0 18px rgba(77,163,255,0.4),
-        0 0 30px rgba(77,163,255,0.25);
-
-    font-weight: 700;
-}
-
-@keyframes glowPulse {
-    0% { text-shadow: 0 0 6px rgba(77,163,255,0.4); }
-    50% { text-shadow: 0 0 18px rgba(77,163,255,0.8); }
-    100% { text-shadow: 0 0 6px rgba(77,163,255,0.4); }
-}
-
-.fh-highlight {
-    animation: glowPulse 2.5s infinite ease-in-out;
+.about-content p {
+    font-size: 1.3rem;
+    line-height: 1.5; 
+    margin-bottom: 10px; 
+    color: #EEF4ED; 
+    opacity: 0.9; 
 }
