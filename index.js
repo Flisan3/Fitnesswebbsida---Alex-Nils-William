@@ -56,22 +56,23 @@ document.querySelectorAll(".calMeter, .proteinMeter").forEach(meter => {
                 requestAnimationFrame(step);
             }
 
-            let fillColor = "#8DA9C4";
+            let fillColor = "#4DA3FF";
 
-        if (type === "calMeter" && value > goal) {
-            fillColor = "#FF4D4D";
-        }
+            if (type === "calMeter" && value > goal) {
+                fillColor = "#1E6FD9";
+            }
 
-        if (type === "proteinMeter" && value >= goal) {
-            fillColor = "#4CAF50";
-        }
+            if (type === "proteinMeter" && value >= goal) {
+                fillColor = "#63B3FF";
+            }
 
         circle.style.background = `conic-gradient(
-            ${fillColor} ${currentPercent}%,
-            #0B2545 ${currentPercent}%
-        )`;
+        #63B3FF 0%,
+        #1E6FD9 ${currentPercent}%,
+        #0B2545 ${currentPercent}%
+)`;
 
-        valueText.style.color = fillColor;
+        valueText.style.color = "#EAF2FF";
 
             circle._percent = currentPercent;
         };
@@ -327,3 +328,94 @@ if (hamburger && navMenu) {
         }
     });
 }
+
+
+const loginBtn = document.querySelector(".fh-navbar__login-btn");
+const loginModal = document.getElementById("loginModal");
+
+const loginUser = document.getElementById("loginUser");
+const loginPass = document.getElementById("loginPass");
+
+const loginSubmit = document.getElementById("loginSubmit");
+const loginCancel = document.getElementById("loginCancel");
+
+// Check if user already logged in
+let currentUser = localStorage.getItem("currentUser");
+
+updateLoginUI();
+
+loginBtn.addEventListener("click", () => {
+    if (currentUser) {
+        // Logga ut
+        localStorage.removeItem("currentUser");
+        currentUser = null;
+        updateLoginUI();
+    } else {
+        loginModal.style.display = "flex";
+    }
+});
+
+loginCancel.addEventListener("click", () => {
+    loginModal.style.display = "none";
+});
+
+loginSubmit.addEventListener("click", () => {
+    const username = loginUser.value.trim();
+    const password = loginPass.value.trim();
+
+    if (!username || !password) {
+        alert("Fyll i alla fält!");
+        return;
+    }
+
+    let users = JSON.parse(localStorage.getItem("users")) || {};
+
+    // skapa konto om det inte finns
+    if (!users[username]) {
+        users[username] = password;
+    } else {
+        if (users[username] !== password) {
+            alert("Fel lösenord!");
+            return;
+        }
+    }
+
+    localStorage.setItem("users", JSON.stringify(users));
+    localStorage.setItem("currentUser", username);
+
+    currentUser = username;
+
+    loginModal.style.display = "none";
+    loginUser.value = "";
+    loginPass.value = "";
+
+    updateLoginUI();
+});
+
+function updateLoginUI() {
+    if (currentUser) {
+        loginBtn.textContent = `Logga ut (${currentUser})`;
+    } else {
+        loginBtn.textContent = "Logga in";
+    }
+}
+
+// ===== SCROLL LOCK SYSTEM =====
+
+let scrollY = 0;
+
+function lockScroll() {
+    scrollY = window.scrollY;
+
+    document.body.classList.add("modal-open");
+    document.body.style.top = `-${scrollY}px`;
+}
+
+function unlockScroll() {
+    document.body.classList.remove("modal-open");
+
+    window.scrollTo(0, scrollY);
+
+    document.body.style.top = "";
+}
+
