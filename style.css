@@ -558,6 +558,18 @@ h2 {
 
 @media (max-width: 768px) {
 
+     .layout-row {
+        flex-direction: column;
+    }
+
+    .action-sidebar {
+        width: 100%;
+    }
+
+    .btn {
+        width: 100%;
+    }
+
     body {
         padding: 15px;
     }
