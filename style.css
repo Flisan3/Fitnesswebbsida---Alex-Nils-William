@@ -436,6 +436,112 @@ h2 {
     font-weight: 500;
 }
 
+.loginModal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.6);
+    justify-content: center;
+    align-items: center;
+    z-index: 200;
+}
+
+.loginModal .modalContent {
+    background: rgba(12, 30, 55, 0.92);
+    backdrop-filter: blur(12px);
+
+    padding: 30px;
+    border-radius: 20px;
+
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+
+    min-width: 300px;
+    max-width: 90%;
+
+    border: 1px solid rgba(99, 179, 255, 0.15);
+    box-shadow:
+        0 10px 40px rgba(0, 0, 0, 0.6),
+        0 0 25px rgba(77, 163, 255, 0.08);
+}
+
+.loginModal h3 {
+    color: var(--text-lightest);
+    text-align: center;
+    font-size: 1.4rem;
+    margin-bottom: 5px;
+}
+
+.loginModal input {
+    width: 100%;
+    padding: 12px;
+    border-radius: 10px;
+
+    border: 1px solid var(--accent-mid);
+    background: var(--bg-inner);
+
+    color: var(--text-lightest);
+    font-weight: bold;
+    text-align: center;
+
+    outline: none;
+    transition: 0.2s ease;
+}
+
+.loginModal input:focus {
+    border-color: var(--accent-light);
+    box-shadow: 0 0 10px rgba(77, 163, 255, 0.25);
+}
+
+.loginModal .modalButtons {
+    display: flex;
+    gap: 10px;
+    margin-top: 5px;
+}
+
+.loginModal .modalButtons button {
+    flex: 1;
+    padding: 10px;
+
+    border-radius: 10px;
+    border: none;
+
+    font-weight: 600;
+    cursor: pointer;
+
+    transition: all 0.2s ease;
+}
+
+#loginCancel {
+    background: rgba(141, 169, 196, 0.2);
+    color: var(--text-lightest);
+    border: 1px solid rgba(141, 169, 196, 0.4);
+}
+
+#loginCancel:hover {
+    background: rgba(141, 169, 196, 0.35);
+}
+
+#loginSubmit {
+    background: linear-gradient(135deg, var(--accent-mid), var(--accent-strong));
+    color: white;
+    box-shadow: 0 4px 12px rgba(77, 163, 255, 0.3);
+}
+
+#loginSubmit:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(77, 163, 255, 0.45);
+}
+
+.loginInfo {
+    font-size: 0.85rem;
+    color: var(--accent-light);
+    text-align: center;
+    opacity: 0.85;
+    margin-top: 5px;
+}
+
 @media (min-width: 750px) {
     .meters {
         flex-direction: row;

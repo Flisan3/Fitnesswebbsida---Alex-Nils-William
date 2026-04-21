@@ -33,6 +33,30 @@ if (hamburger && navMenu) {
     });
 }
 
+const loginBtn = document.querySelector(".fh-navbar__login-btn");
+const loginModal = document.getElementById("loginModal");
+const loginCancel = document.getElementById("loginCancel");
+
+if (loginBtn && loginModal) {
+    loginBtn.addEventListener("click", () => {
+        loginModal.style.display = "flex";
+    });
+}
+
+if (loginCancel && loginModal) {
+    loginCancel.addEventListener("click", () => {
+        loginModal.style.display = "none";
+    });
+}
+
+if (loginModal) {
+    loginModal.addEventListener("click", (e) => {
+        if (e.target === loginModal) {
+            loginModal.style.display = "none";
+        }
+    });
+}
+
 if (lastDate && lastDate !== today) {
     saveDailyStats();
 
