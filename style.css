@@ -685,3 +685,30 @@ h2 {
         gap: 20px;
     }
 }
+
+
+.about-page {
+    display: flex;
+    justify-content: center;
+    padding: 30px 15px;
+    margin: 0px;
+}
+
+.about-content {
+    max-width: 1000px;
+    width: 100%;
+}
+
+.about-content h1 {
+    font-size: 3rem;
+    margin-bottom: 12px;
+    color: #EEF4ED;
+}
+
+.about-content p {
+    font-size: 1.3rem;
+    line-height: 1.5; 
+    margin-bottom: 10px; 
+    color: #EEF4ED; 
+    opacity: 0.9; 
+}

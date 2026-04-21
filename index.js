@@ -7,6 +7,32 @@ let activeMeter = null;
 const today = new Date().toISOString().split("T")[0];
 const lastDate = localStorage.getItem("lastDate");
 
+const hamburger = document.getElementById("fhHamburger");
+const navMenu = document.getElementById("fhNavMenu");
+
+if (hamburger && navMenu) {
+    hamburger.addEventListener("click", () => {
+        navMenu.classList.toggle("active");
+        hamburger.classList.toggle("open");
+    });
+
+    // Close menu when clicking a link
+    document.querySelectorAll(".fh-navbar__link").forEach(link => {
+        link.addEventListener("click", () => {
+            navMenu.classList.remove("active");
+            hamburger.classList.remove("open");
+        });
+    });
+
+    // Close when clicking outside
+    document.addEventListener("click", (e) => {
+        if (!navMenu.contains(e.target) && !hamburger.contains(e.target)) {
+            navMenu.classList.remove("active");
+            hamburger.classList.remove("open");
+        }
+    });
+}
+
 if (lastDate && lastDate !== today) {
     saveDailyStats();
 
@@ -308,29 +334,3 @@ function renderChart() {
 // Starta programmet
 render();
 renderChart();
-
-const hamburger = document.getElementById("fhHamburger");
-const navMenu = document.getElementById("fhNavMenu");
-
-if (hamburger && navMenu) {
-    hamburger.addEventListener("click", () => {
-        navMenu.classList.toggle("active");
-        hamburger.classList.toggle("open");
-    });
-
-    // Close menu when clicking a link
-    document.querySelectorAll(".fh-navbar__link").forEach(link => {
-        link.addEventListener("click", () => {
-            navMenu.classList.remove("active");
-            hamburger.classList.remove("open");
-        });
-    });
-
-    // Close when clicking outside
-    document.addEventListener("click", (e) => {
-        if (!navMenu.contains(e.target) && !hamburger.contains(e.target)) {
-            navMenu.classList.remove("active");
-            hamburger.classList.remove("open");
-        }
-    });
-}
