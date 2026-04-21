@@ -9,6 +9,13 @@ const lastDate = localStorage.getItem("lastDate");
 
 if (lastDate && lastDate !== today) {
     saveDailyStats();
+
+    let exercises = JSON.parse(localStorage.getItem("exercises")) || [];
+    exercises = exercises.map(ex => ({
+        ...ex,
+        done: false
+    }));
+    localStorage.setItem("exercises", JSON.stringify(exercises));
 }
 
 if (lastDate !== today) {
