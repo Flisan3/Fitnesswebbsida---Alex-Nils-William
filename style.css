@@ -617,7 +617,7 @@ h2 {
 /* Enskild övning (Ligger längst fram i listan) */
 .ex-item {
     background: linear-gradient(135deg, #63B3FF, #4DA3FF);
-    ccolor: #081A2F;
+    color: #081A2F;
     border: none;
     display: flex;
     align-items: center;
