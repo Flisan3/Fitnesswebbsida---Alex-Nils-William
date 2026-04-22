@@ -4,13 +4,74 @@
 let activeMeter = null;
 
 //Check if it is a new day and if so, reset values
-const todayExercisesKey = "exercises_" + new Date().toDateString();
-const today = new Date().toDateString();
+const today = new Date().toISOString().split("T")[0];
 const lastDate = localStorage.getItem("lastDate");
+
+const hamburger = document.getElementById("fhHamburger");
+const navMenu = document.getElementById("fhNavMenu");
+
+if (hamburger && navMenu) {
+    hamburger.addEventListener("click", () => {
+        navMenu.classList.toggle("active");
+        hamburger.classList.toggle("open");
+    });
+
+    // Close menu when clicking a link
+    document.querySelectorAll(".fh-navbar__link").forEach(link => {
+        link.addEventListener("click", () => {
+            navMenu.classList.remove("active");
+            hamburger.classList.remove("open");
+        });
+    });
+
+    // Close when clicking outside
+    document.addEventListener("click", (e) => {
+        if (!navMenu.contains(e.target) && !hamburger.contains(e.target)) {
+            navMenu.classList.remove("active");
+            hamburger.classList.remove("open");
+        }
+    });
+}
+
+const loginBtn = document.querySelector(".fh-navbar__login-btn");
+const loginModal = document.getElementById("loginModal");
+const loginCancel = document.getElementById("loginCancel");
+
+if (loginBtn && loginModal) {
+    loginBtn.addEventListener("click", () => {
+        loginModal.style.display = "flex";
+    });
+}
+
+if (loginCancel && loginModal) {
+    loginCancel.addEventListener("click", () => {
+        loginModal.style.display = "none";
+    });
+}
+
+if (loginModal) {
+    loginModal.addEventListener("click", (e) => {
+        if (e.target === loginModal) {
+            loginModal.style.display = "none";
+        }
+    });
+}
+
+if (lastDate && lastDate !== today) {
+    saveDailyStats();
+
+    let exercises = JSON.parse(localStorage.getItem("exercises")) || [];
+    exercises = exercises.map(ex => ({
+        ...ex,
+        done: false
+    }));
+    localStorage.setItem("exercises", JSON.stringify(exercises));
+}
 
 if (lastDate !== today) {
     localStorage.removeItem("value_calMeter");
     localStorage.removeItem("value_proteinMeter");
+
     localStorage.setItem("lastDate", today);
 }
 
@@ -52,22 +113,23 @@ document.querySelectorAll(".calMeter, .proteinMeter").forEach(meter => {
                 requestAnimationFrame(step);
             }
 
-            let fillColor = "#8DA9C4";
+            let fillColor = "#4DA3FF";
 
-        if (type === "calMeter" && value > goal) {
-            fillColor = "#FF4D4D";
-        }
+            if (type === "calMeter" && value > goal) {
+                fillColor = "#1E6FD9";
+            }
 
-        if (type === "proteinMeter" && value >= goal) {
-            fillColor = "#4CAF50";
-        }
+            if (type === "proteinMeter" && value >= goal) {
+                fillColor = "#63B3FF";
+            }
 
         circle.style.background = `conic-gradient(
-            ${fillColor} ${currentPercent}%,
-            #0B2545 ${currentPercent}%
-        )`;
+        #63B3FF 0%,
+        #1E6FD9 ${currentPercent}%,
+        #0B2545 ${currentPercent}%
+)`;
 
-        valueText.style.color = fillColor;
+        valueText.style.color = "#EAF2FF";
 
             circle._percent = currentPercent;
         };
@@ -132,79 +194,168 @@ document.getElementById("goalSave").addEventListener("click", () => {
     document.getElementById("goalModal").style.display = "none";
 });
 
-let exercises = JSON.parse(localStorage.getItem(todayExercisesKey)) || [
-    { name: "Bänkpress", info: "3x10", done: false },
-    { name: "Lutande hantlar", info: "3x12", done: false },
-    { name: "Pushdowns", info: "4x15", done: false }
+let exercises = JSON.parse(localStorage.getItem("exercises")) || [
+    { name: "Bänkpress", sets: 3, reps: 10, done: false },
+    { name: "Lutande hantlar", sets: 3, reps: 12, done: false },
+    { name: "Pushdowns", sets: 4, reps: 15, done: false }
 ];
 
 function saveExercises() {
-    localStorage.setItem(todayExercisesKey, JSON.stringify(exercises));
+    localStorage.setItem("exercises", JSON.stringify(exercises));
 }
 
 function render() {
     const list = document.getElementById('exercise-list');
-    
-    // Om listan är tom
+
     if (exercises.length === 0) {
-        list.innerHTML = `<div style="height:100%; display:flex; align-items:center; justify-content:center; text-align:center; color: var(--accent-light); font-weight:500;">
-            Lista över övningar<br>som kan checkas av</div>`;
+        list.innerHTML = `<div style="height:100%; display:flex; align-items:center; justify-content:center; text-align:center; color: var(--accent-light); font-weight:500;">Lista över övningar<br>som kan checkas av</div>`;
         return;
     }
 
     list.innerHTML = '';
-    
-    // Rendera övningarna
+
     exercises.forEach((ex, i) => {
         const item = document.createElement('div');
         item.className = 'ex-item';
-        
-        // Dynamisk styling om övningen är klar
+
         const textStyle = ex.done ? 'text-decoration: line-through; opacity: 0.5;' : '';
 
         item.innerHTML = `
             <input type="checkbox" id="check-${i}" ${ex.done ? 'checked' : ''}>
             <label for="check-${i}" style="${textStyle} flex: 1; cursor: pointer;">
-                <strong>${ex.name}</strong> - ${ex.info}
+                <strong>${ex.name}</strong> - ${ex.sets}x${ex.reps}
             </label>
             <button onclick="removeTask(${i})" style="background:none; border:none; cursor:pointer; font-size:1.2rem; color: var(--bg-darkest); opacity:0.6;">×</button>
         `;
-        
-        // Klick på checkbox
+
         item.querySelector('input').addEventListener('change', () => {
             exercises[i].done = !exercises[i].done;
-            saveExercises(); // HÄR
+            saveExercises();
             render();
         });
-        
+
         list.appendChild(item);
     });
 }
 
 function editExercises() {
-    const name = prompt("Övningens namn:");
-    const info = prompt("Set/Reps (t.ex. 3x10):");
-    if (name && info) {
-        exercises.push({ name, info, done: false });
-        saveExercises(); // HÄR
-        render();
-    }
+    document.getElementById("exerciseModal").style.display = "flex";
 }
 
 function removeTask(index) {
     exercises.splice(index, 1);
-    saveExercises(); // HÄR
+    saveExercises();
     render();
 }
 
-document.getElementById('finish-btn').addEventListener('click', () => {
-    const doneCount = exercises.filter(e => e.done).length;
-    if (exercises.length === 0) {
-        alert("Lägg till övningar först!");
-    } else {
-        alert(`Bra jobbat! Du blev klar med ${doneCount} av ${exercises.length} övningar.`);
+document.addEventListener("DOMContentLoaded", () => {
+
+    const finishBtn = document.getElementById('finish-btn');
+    const finishModal = document.getElementById("finishModal");
+    const finishMessage = document.getElementById("finishMessage");
+    const finishClose = document.getElementById("finishClose");
+
+    if (finishBtn) {
+        finishBtn.addEventListener('click', () => {
+            const doneCount = exercises.filter(e => e.done).length;
+
+            if (exercises.length === 0) {
+                finishMessage.textContent = "Lägg till övningar först!";
+            } else {
+                finishMessage.textContent =
+                    `Du blev klar med ${doneCount} av ${exercises.length} övningar.`;
+            }
+
+            finishModal.style.display = "flex";
+        });
     }
+
+    if (finishClose) {
+        finishClose.addEventListener("click", () => {
+            finishModal.style.display = "none";
+        });
+    }
+
 });
+
+document.getElementById("exCancel").addEventListener("click", () => {
+    document.getElementById("exerciseModal").style.display = "none";
+});
+
+document.getElementById("exSave").addEventListener("click", () => {
+    const name = document.getElementById("exName").value.trim();
+    const sets = parseInt(document.getElementById("exSets").value);
+    const reps = parseInt(document.getElementById("exReps").value);
+
+    if (!name || isNaN(sets) || isNaN(reps) || sets <= 0 || reps <= 0) {
+        alert("Fyll i giltiga värden!");
+        return;
+    }
+
+    exercises.push({
+        name,
+        sets,
+        reps,
+        done: false
+    });
+
+    saveExercises();
+    render();
+
+    document.getElementById("exName").value = "";
+    document.getElementById("exSets").value = "";
+    document.getElementById("exReps").value = "";
+
+    document.getElementById("exerciseModal").style.display = "none";
+});
+
+function saveDailyStats() {
+    //Sparar kalorie och protein-värden i en historik lokalt.
+    const today = new Date().toISOString().split("T")[0];
+
+    let history = JSON.parse(localStorage.getItem("history")) || [];
+
+    history = history.filter(entry => entry.date !== today);
+
+    history.push({
+        date: today,
+        calories: parseInt(localStorage.getItem("value_calMeter")) || 0,
+        protein: parseInt(localStorage.getItem("value_proteinMeter")) || 0
+    });
+
+    localStorage.setItem("history", JSON.stringify(history));
+}
+
+function renderChart() {
+    //Renderar ut ett diagram med hjälp av Chart.js
+    let history = JSON.parse(localStorage.getItem("history")) || [];
+
+    const labels = history.map(h => h.date);
+    const calories = history.map(h => h.calories);
+    const protein = history.map(h => h.protein);
+
+    const ctx = document.getElementById("statsChart").getContext("2d");
+
+    new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels,
+            datasets: [
+                {
+                    label: 'Kalorier',
+                    data: calories,
+                    tension: 0
+                },
+                {
+                    label: 'Protein',
+                    data: protein,
+                    tension: 0
+                }
+            ]
+        }
+    });
+}
 
 // Starta programmet
 render();
+renderChart();

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Om oss - FitnessHub</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="fh-navbar">
+    <div class="fh-navbar__left">
+        <h2 class="fh-navbar__title">FitnessHub</h2>
+    </div>
+
+    <nav class="fh-navbar__menu" id="fhNavMenu">
+        <a href="Index.html" class="fh-navbar__link">Home</a>
+        <a href="#" class="fh-navbar__link">Contact</a>
+        <a href="AboutUs.html" class="fh-navbar__link">About us</a>
+    </nav>
+
+    <div class="fh-navbar__right">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640"><!--!Font Awesome Free v7.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2026 Fonticons, Inc.--><path d="M463 448.2C440.9 409.8 399.4 384 352 384L288 384C240.6 384 199.1 409.8 177 448.2C212.2 487.4 263.2 512 320 512C376.8 512 427.8 487.3 463 448.2zM64 320C64 178.6 178.6 64 320 64C461.4 64 576 178.6 576 320C576 461.4 461.4 576 320 576C178.6 576 64 461.4 64 320zM320 336C359.8 336 392 303.8 392 264C392 224.2 359.8 192 320 192C280.2 192 248 224.2 248 264C248 303.8 280.2 336 320 336z"/></svg>        <button class="fh-navbar__login-btn">Logga in</button>
+    </div>
+
+    <div class="fh-navbar__hamburger" id="fhHamburger">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640">
+            <path d="M64 160C64 142.3 78.3 128 96 128L480 128C497.7 128 512 142.3 512 160C512 177.7 497.7 192 480 192L96 192C78.3 192 64 177.7 64 160zM128 320C128 302.3 142.3 288 160 288L544 288C561.7 288 576 302.3 576 320C576 337.7 561.7 352 544 352L160 352C142.3 352 128 337.7 128 320zM512 480C512 497.7 497.7 512 480 512L96 512C78.3 512 64 497.7 64 480C64 462.3 78.3 448 96 448L480 448C497.7 448 512 462.3 512 480z"/>
+        </svg>
+    </div>
+</header>
+
+<main class="about-page">
+    <section class="about-content">
+        <h1>Om FitnessHub:</h1>
+
+        <p>
+            FitnessHub är en enkel webbapp för att hålla koll på din träning och ditt näringsintag.
+            Istället för att använda flera olika verktyg har vi samlat det viktigaste på ett ställe.
+        </p>
+
+        <p>
+            Du kan logga kalorier, protein och dina träningspass snabbt och utan onödiga steg.
+            All data sparas i din webbläsare, vilket gör att det går snabbt att använda varje dag.
+        </p>
+
+        <p>
+            Fokus ligger på funktion, inga distraktionerutan bara det du behöver
+            för att hålla din rutin.
+        </p>
+
+        <p>
+            Oavsett om du tränar regelbundet eller precis har börjat är målet att göra det enklare
+            att vara konsekvent över tid.
+        </p>
+
+        <p>
+            Små steg varje dag bygger resultat.
+        </p>
+    </section>
+</main>
+
+<div class="loginModal" id="loginModal">
+    <div class="modalContent">
+        <h3>Logga in</h3>
+
+        <input type="text" id="loginUser" placeholder="Användarnamn">
+        <input type="password" id="loginPass" placeholder="Lösenord">
+
+        <div class="modalButtons">
+            <button id="loginCancel">Avbryt</button>
+            <button id="loginSubmit">Logga in</button>
+        </div>
+
+        <p class="loginInfo">Inget konto? Skapas automatiskt vid första inloggningen.</p>
+    </div>
+</div>
+
+<script src="index.js"></script>
+</body>
+</html>

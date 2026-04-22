@@ -4,23 +4,159 @@
     margin: 0;
     padding: 0;
     gap: 0;
+    box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
+    text-shadow: 0 0 8px rgba(77,163,255,0.15);
 }
+
 
 body{
     font-family: Arial, Helvetica, sans-serif;
-    background: #134074;
-    color: #EEF4ED;
+    background: radial-gradient(circle at 20% 20%, rgba(77,163,255,0.15), transparent 40%),
+                radial-gradient(circle at 80% 30%, rgba(30,111,217,0.15), transparent 40%),
+                #050C18;
+
+    color: #EAF2FF;
     border-radius: 20px;
     padding: 30px;
     margin:0;
+}
+
+.fh-navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 30px;
+    background: rgba(10, 25, 45, 0.75);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(77, 163, 255, 0.15);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.4);
+    position: relative;
+    font-family: Arial, Helvetica, sans-serif;
+    border-radius: 14px;
+}
+
+
+.fh-navbar__title {
+    color: rgb(238, 244, 237);
+}
+
+.fh-navbar__menu {
+    display: flex;
+    gap: 20px;
+}
+
+.fh-navbar__link {
+    text-decoration: none;
+    color: white;
+    transition: 0.3s;
+    font-size: 1.25rem;
+    margin: 0 1.15rem;
+    position: relative;
+}
+
+.fh-navbar__link::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -4px;
+    width: 0%;
+    height: 2px;
+    background: linear-gradient(90deg, #4DA3FF, #63B3FF);
+    transition: 0.3s;
+}
+
+.fh-navbar__link:hover::after {
+    width: 100%;
+}
+
+.fh-navbar__link:hover {
+    color: rgb(141, 169, 196);
+}
+
+.fh-navbar__right {
+    display: flex;
+    flex-direction: row; 
+    align-items: center;
+    gap: 10px; 
+}
+
+.fh-navbar__logo {
+    width: 40px;
+    margin-bottom: 5px;
+}
+
+.fh-navbar__login-btn {
+    background: linear-gradient(135deg, #4DA3FF, #1E6FD9);
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+
+    box-shadow: 0 4px 12px rgba(77, 163, 255, 0.35);
+    transition: all 0.25s ease;
+}
+
+.fh-navbar__login-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(77, 163, 255, 0.5);
+}
+
+.fh-navbar__right svg {
+    width: 28px;
+    height: 28px;
+    fill: #8DA9C4;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+.fh-navbar__right svg:hover {
+    fill: #EEF4ED;
+    transform: scale(1.1);
+}
+
+.fh-navbar__login-btn:hover {
+    background-color: rgb(141, 169, 196);
+}
+
+
+.fh-navbar__hamburger {
+    display: none;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+@media (max-width: 768px) {
+    .fh-navbar__menu {
+        position: absolute;
+        top: 70px;
+        left: 0;
+        width: 100%;
+        background: rgb(19, 49, 92);
+        flex-direction: column;
+        align-items: center;
+        display: none;
+    }
+
+    .fh-navbar__menu.active {
+        display: flex;
+    }
+
+    .fh-navbar__hamburger {
+        display: block;
+    }
 }
 
 main {
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-direction: column;
     min-height: 100vh;
     padding: 20px 0;
+    margin: 50px;
 }
 
 .meters{
@@ -69,17 +205,25 @@ h2{
     align-items: center;
     justify-content: center;
     position: relative;
-    box-shadow: 0 0 25px rgba(141, 169, 196, 0.2);
+
+    background: #0C223A;
+
+    box-shadow: 
+        0 0 30px rgba(77, 163, 255, 0.25),
+        inset 0 0 20px rgba(0,0,0,0.4);
+
     transition: background 0.8s ease;
 }
 
 .meterCircle::after {
     content: "";
     position: absolute;
-    width: 70%;
-    height: 70%;
-    background: #134074;
+    width: 72%;
+    height: 72%;
+    background: #081A2F;
     border-radius: 50%;
+
+    box-shadow: inset 0 0 15px rgba(0,0,0,0.6);
 }
 
 .meterValue {
@@ -93,25 +237,15 @@ h2{
     gap:10px;
 }
 
-input{
-    width:80px;
-    padding:8px;
-    text-align:center;
-}
-
-button{
-    padding:8px 12px;
-    cursor:pointer;
-}
-
 .meterText {
     position: absolute;
+    color: var(--text-lightest);
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     z-index: 2;
     font-size: 2rem;
-    font-weight: bold;
+    font-weight: 600;
     text-align: center;
     transition: color 0.8s ease;
 }
@@ -120,17 +254,25 @@ button {
     padding: 10px 16px;
     border-radius: 10px;
     border: none;
-    background: #8DA9C4;
-    color: #0B2545;
+    background: var(--accent-mid);
+    color: white;
     font-weight: bold;
     cursor: pointer;
     transition: all 0.2s ease;
 }
 
+.fh-navbar__login-btn {
+    background: linear-gradient(135deg, #4DA3FF, #1E6FD9);
+}
+
+.fh-navbar__login-btn:hover {
+    background: linear-gradient(135deg, #63B3FF, #1E6FD9);
+}
+
 button:hover {
-    background: #EEF4ED;
     transform: translateY(-2px);
 }
+
 
 button:active {
     transform: translateY(1px);
@@ -162,27 +304,22 @@ button:active {
 }
 
 input {
-    width: 80px;
     padding: 10px;
-
     border-radius: 10px;
-    border: none;
-
-    background: #EEF4ED;
-    color: #0B2545;
-
+    border: 1px solid var(--accent-mid);
+    background: #0C223A;
+    color: var(--text-lightest);
     text-align: center;
     font-weight: bold;
+}
+
+.addInput {
+    width: 80px;
 }
 
 h2 {
     color: #EEF4ED;
     font-weight: 600;
-}
-
-.meterText {
-    color: #EEF4ED;
-    font-size: 2.2rem;
 }
 
 .goalModal {
@@ -196,6 +333,12 @@ h2 {
     justify-content: center;
     align-items: center;
     z-index: 100;
+}
+
+.goalModal input {
+    width: 120px;
+    padding: 10px;
+    font-size: 1rem;
 }
 
 .goalModal .modalContent {
@@ -236,6 +379,169 @@ h2 {
     background: #EEF4ED;
 }
 
+.exerciseModal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.5);
+    justify-content: center;
+    align-items: center;
+    z-index: 100;
+}
+
+.exerciseModal .modalContent {
+    width: 50%;
+    background: #13315C;
+    padding: 30px;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.exerciseModal input {
+    width: 100%;
+    padding: 12px;
+    font-size: 1rem;
+}
+
+.finishModal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.6);
+    justify-content: center;
+    align-items: center;
+    z-index: 200;
+}
+
+.finishContent {
+    background: #13315C;
+    padding: 30px;
+    border-radius: 20px;
+    text-align: center;
+    min-width: 280px;
+    max-width: 90%;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+}
+
+.finishTitle {
+    margin-bottom: 10px;
+    font-size: 1.6rem;
+}
+
+#finishMessage {
+    margin-bottom: 20px;
+    color: #8DA9C4;
+    font-weight: 500;
+}
+
+.loginModal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.6);
+    justify-content: center;
+    align-items: center;
+    z-index: 200;
+}
+
+.loginModal .modalContent {
+    background: rgba(12, 30, 55, 0.92);
+    backdrop-filter: blur(12px);
+
+    padding: 30px;
+    border-radius: 20px;
+
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+
+    min-width: 300px;
+    max-width: 90%;
+
+    border: 1px solid rgba(99, 179, 255, 0.15);
+    box-shadow:
+        0 10px 40px rgba(0, 0, 0, 0.6),
+        0 0 25px rgba(77, 163, 255, 0.08);
+}
+
+.loginModal h3 {
+    color: var(--text-lightest);
+    text-align: center;
+    font-size: 1.4rem;
+    margin-bottom: 5px;
+}
+
+.loginModal input {
+    width: 100%;
+    padding: 12px;
+    border-radius: 10px;
+
+    border: 1px solid var(--accent-mid);
+    background: var(--bg-inner);
+
+    color: var(--text-lightest);
+    font-weight: bold;
+    text-align: center;
+
+    outline: none;
+    transition: 0.2s ease;
+}
+
+.loginModal input:focus {
+    border-color: var(--accent-light);
+    box-shadow: 0 0 10px rgba(77, 163, 255, 0.25);
+}
+
+.loginModal .modalButtons {
+    display: flex;
+    gap: 10px;
+    margin-top: 5px;
+}
+
+.loginModal .modalButtons button {
+    flex: 1;
+    padding: 10px;
+
+    border-radius: 10px;
+    border: none;
+
+    font-weight: 600;
+    cursor: pointer;
+
+    transition: all 0.2s ease;
+}
+
+#loginCancel {
+    background: rgba(141, 169, 196, 0.2);
+    color: var(--text-lightest);
+    border: 1px solid rgba(141, 169, 196, 0.4);
+}
+
+#loginCancel:hover {
+    background: rgba(141, 169, 196, 0.35);
+}
+
+#loginSubmit {
+    background: linear-gradient(135deg, var(--accent-mid), var(--accent-strong));
+    color: white;
+    box-shadow: 0 4px 12px rgba(77, 163, 255, 0.3);
+}
+
+#loginSubmit:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(77, 163, 255, 0.45);
+}
+
+.loginInfo {
+    font-size: 0.85rem;
+    color: var(--accent-light);
+    text-align: center;
+    opacity: 0.85;
+    margin-top: 5px;
+}
+
 @media (min-width: 750px) {
     .meters {
         flex-direction: row;
@@ -253,42 +559,34 @@ h2 {
 
 /* Färgpalett - Uppdelad i lager (djup) */
 :root {
-    --bg-darkest: #0B2545; /* Längst bak */
-    --bg-card: #13315C;    /* Mellanlager */
-    --bg-inner: #134074;   /* Inre lager */
-    --accent-light: #8DA9C4; /* Detaljer / Ljusare knappar */
-    --text-lightest: #EEF4ED; /* Längst fram (Text & Huvudknapp) */
-}
+    --bg-darkest: #081A2F;   /* djupare bakgrund */
+    --bg-card: #0E2A47;      /* kort */
+    --bg-inner: #0C223A;     /* insida */
 
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-}
+    --accent-light: #63B3FF; /* ljus blå */
+    --accent-mid: #4DA3FF;   /* mellan blå */
+    --accent-strong: #1E6FD9;/* mörk blå */
 
-body {
-    background-color: var(--bg-darkest);
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    color: var(--text-lightest);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    padding: 10px;
+    --text-lightest: #EAF2FF;
 }
 
 .center-container {
     width: 100%;
     max-width: 800px;
+    margin: 0 auto;
+    align-items: center;
 }
 
 /* Huvudkortet */
 .workout-card {
-    background: var(--bg-card);
-    border: 1px solid var(--bg-inner);
-    border-radius: 16px; /* Mjukare hörn */
+    background: rgba(12, 30, 55, 0.85);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(77,163,255,0.12);
+    border-radius: 18px;
     padding: 24px;
-    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4); /* Ger en svävande effekt */
+    box-shadow:
+        0 10px 40px rgba(0,0,0,0.6),
+        0 0 25px rgba(77,163,255,0.08);
 }
 
 .title {
@@ -318,8 +616,9 @@ body {
 
 /* Enskild övning (Ligger längst fram i listan) */
 .ex-item {
-    background-color: var(--accent-light);
-    color: var(--bg-darkest);
+    background: linear-gradient(135deg, #63B3FF, #4DA3FF);
+    ccolor: #081A2F;
+    border: none;
     display: flex;
     align-items: center;
     gap: 12px;
@@ -327,7 +626,7 @@ body {
     padding: 12px 16px;
     border-radius: 8px;
     font-weight: 500;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    box-shadow: 0 4px 12px rgba(77,163,255,0.25);
     transition: transform 0.2s;
 }
 
@@ -364,12 +663,12 @@ body {
 /* Ljus knapp (sekundär) */
 .btn-outline {
     background: transparent;
-    border: 2px solid var(--accent-light);
+    border: 2px solid rgba(77,163,255,0.5);
     color: var(--text-lightest);
 }
 
 .btn-outline:hover {
-    background: var(--accent-light);
+    background: rgba(77,163,255,0.15);
     color: var(--bg-darkest);
 }
 
@@ -394,6 +693,7 @@ body {
     border-radius: 8px;
     width: 100%;
     outline: none;
+    box-sizing: border-box;
 }
 
 .note-input::placeholder {
@@ -405,95 +705,179 @@ body {
     border-color: var(--text-lightest);
 }
 
-/* Kontaktformulär som matchar resten av sidan */
-.contact-card {
-    max-width: 620px;
-    margin: 0 auto;
-}
-
-.contact-form {
-    display: flex;
-    flex-direction: column;
-    gap: 18px;
-}
-
-.form-group {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-}
-
-.contact-form label {
-    color: var(--accent-light);
-    font-size: 0.95rem;
-    font-weight: 600;
-}
-
-.contact-form input,
-.contact-form textarea {
-    width: 100%;
-    padding: 14px;
-    border-radius: 14px;
-    border: 1px solid rgba(141, 169, 196, 0.35);
-    background: rgba(238, 244, 237, 0.08);
-    color: var(--text-lightest);
-    outline: none;
-    font-size: 0.95rem;
-}
-
-.contact-form input:focus,
-.contact-form textarea:focus {
+.note-input:focus {
     border-color: var(--text-lightest);
-    box-shadow: 0 0 0 3px rgba(141, 169, 196, 0.18);
 }
 
-.contact-form textarea {
-    min-height: 150px;
-    resize: vertical;
+.diagram {
+    max-width: 800px;
+    margin: 40px auto;
+    background: var(--bg-card);
+    border-radius: 16px;
+    padding: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+    border: 1px solid rgba(99, 179, 255, 0.1);
 }
 
-.submit-btn {
+#statsChart {
     width: 100%;
-    background: var(--text-lightest);
-    color: var(--bg-darkest);
-    border-radius: 14px;
-    padding: 14px;
-    font-weight: 700;
+    height: 300px;
 }
 
-.submit-btn:hover {
-    transform: translateY(-1px);
-}
 
-/* Mobil-optimering: Krymper allt proportionerligt utan att bryta layouten */
-@media (max-width: 650px) {
-    .workout-card {
+@media (max-width: 768px) {
+
+     .layout-row {
+        flex-direction: column;
+    }
+
+    .action-sidebar {
+        width: 100%;
+    }
+
+    .btn {
+        width: 100%;
+    }
+
+    body {
         padding: 15px;
     }
-    .layout-row {
+
+    main {
+        margin: 10px;
+        padding: 20px;
+    }
+
+    .diagram {
+        margin: 20px 0;
+        padding: 15px;
+    }
+
+    input {
+        width: 60px;
+        padding: 6px;
+    }
+
+    .fh-navbar {
+        padding: 12px 16px;
+        position: relative;
+        z-index: 1000;
+    }
+
+    .fh-navbar__title {
+        font-size: 1.2rem;
+    }
+
+    .fh-navbar__right {
+        flex-direction: row;
         gap: 10px;
     }
-    .exercise-display {
-        padding: 10px;
+
+    .fh-navbar__hamburger {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        z-index: 9999;
     }
-    .btn {
-        padding: 8px;
-        font-size: 0.75rem;
+
+    .fh-navbar__hamburger svg {
+        width: 32px;
+        height: 32px;
+        fill: var(--text-lightest);
     }
-    .title {
-        font-size: 1.1rem;
-        margin-bottom: 12px;
+
+    .fh-navbar__menu {
+        position: absolute;
+        top: 60px;
+        left: 0;
+        width: 100%;
+
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+
+        background: rgba(19, 49, 92, 0.98);
+        backdrop-filter: blur(10px);
+
+        border-bottom: 1px solid rgba(238, 244, 237, 0.08);
+        box-shadow: 0 10px 30px rgba(0,0,0,0.35);
+
+        padding: 0;
+
+        max-height: 0;
+        overflow: hidden;
+        opacity: 0;
+
+        transition: all 0.35s ease;
     }
-    .ex-item {
-        padding: 8px 10px;
-        font-size: 0.8rem;
+
+    .fh-navbar__menu.active {
+        max-height: 320px;
+        opacity: 1;
+        padding: 10px 0;
     }
-    .ex-item input[type="checkbox"] {
-        width: 16px;
-        height: 16px;
+
+    .fh-navbar__link {
+        width: 100%;
+        padding: 14px 20px;
+
+        display: block;
+
+        font-size: 1.05rem;
+        color: var(--text-lightest);
+        text-decoration: none;
+
+        border-left: 3px solid transparent;
+
+        transition: all 0.2s ease;
     }
-    .note-input {
-        padding: 8px;
-        font-size: 0.8rem;
+
+    .fh-navbar__link:hover {
+        background: rgba(141, 169, 196, 0.15);
+        border-left: 3px solid var(--accent-light);
+        transform: translateX(4px);
     }
+
+    .fh-navbar__link:active {
+        transform: scale(0.98);
+        background: rgba(141, 169, 196, 0.25);
+    }
+
+    .meters {
+        gap: 40px;
+        margin: 40px;
+    }
+
+    .calMeter,
+    .proteinMeter {
+        gap: 20px;
+    }
+}
+
+
+.about-page {
+    display: flex;
+    justify-content: center;
+    padding: 30px 15px;
+    margin: 0px;
+}
+
+.about-content {
+    max-width: 1000px;
+    width: 100%;
+}
+
+.about-content h1 {
+    font-size: 3rem;
+    margin-bottom: 12px;
+    color: #EEF4ED;
+}
+
+.about-content p {
+    font-size: 1.3rem;
+    line-height: 1.5; 
+    margin-bottom: 10px; 
+    color: #EEF4ED; 
+    opacity: 0.9; 
 }
