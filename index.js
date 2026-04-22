@@ -1,22 +1,18 @@
-//test
-
-//Track active meter
 let activeMeter = null;
 
-//Check if it is a new day and if so, reset values
 const today = new Date().toISOString().split("T")[0];
 const lastDate = localStorage.getItem("lastDate");
 
 const hamburger = document.getElementById("fhHamburger");
 const navMenu = document.getElementById("fhNavMenu");
 
+// Hantera hamburgermenyn
 if (hamburger && navMenu) {
     hamburger.addEventListener("click", () => {
         navMenu.classList.toggle("active");
         hamburger.classList.toggle("open");
     });
 
-    // Close menu when clicking a link
     document.querySelectorAll(".fh-navbar__link").forEach(link => {
         link.addEventListener("click", () => {
             navMenu.classList.remove("active");
@@ -24,7 +20,6 @@ if (hamburger && navMenu) {
         });
     });
 
-    // Close when clicking outside
     document.addEventListener("click", (e) => {
         if (!navMenu.contains(e.target) && !hamburger.contains(e.target)) {
             navMenu.classList.remove("active");
@@ -33,6 +28,7 @@ if (hamburger && navMenu) {
     });
 }
 
+// Hantera inloggningsmodalen
 const loginBtn = document.querySelector(".fh-navbar__login-btn");
 const loginModal = document.getElementById("loginModal");
 const loginCancel = document.getElementById("loginCancel");
@@ -57,6 +53,7 @@ if (loginModal) {
     });
 }
 
+// Spara dagens statistik och återställ vid midnatt
 if (lastDate && lastDate !== today) {
     saveDailyStats();
 
@@ -71,129 +68,130 @@ if (lastDate && lastDate !== today) {
 if (lastDate !== today) {
     localStorage.removeItem("value_calMeter");
     localStorage.removeItem("value_proteinMeter");
-
     localStorage.setItem("lastDate", today);
 }
 
-//Setup meters
-document.querySelectorAll(".calMeter, .proteinMeter").forEach(meter => {
-    const minusBtn = meter.querySelector(".meterControls button:first-child");
-    const plusBtn = meter.querySelector(".meterControls button:last-child");
-    const input = meter.querySelector(".addInput");
-    const goalBtn = meter.querySelector(".goalBtn");
-    const circle = meter.querySelector(".meterCircle");
-    const valueText = meter.querySelector(".meterText");
+const metersExist = document.querySelector(".calMeter");
 
-    //Identify meter type
-    const type = meter.classList.contains("calMeter") ? "calMeter" : "proteinMeter";
+// Hantera kalorimätare och proteinmätare
+if (metersExist) {
+    document.querySelectorAll(".calMeter, .proteinMeter").forEach(meter => {
+        const minusBtn = meter.querySelector(".meterControls button:first-child");
+        const plusBtn = meter.querySelector(".meterControls button:last-child");
+        const input = meter.querySelector(".addInput");
+        const goalBtn = meter.querySelector(".goalBtn");
+        const circle = meter.querySelector(".meterCircle");
+        const valueText = meter.querySelector(".meterText");
 
-    //Load saved data
-    let value = parseInt(localStorage.getItem(`value_${type}`)) || 0;
-    let goal = parseInt(localStorage.getItem(`goal_${type}`)) || 100;
+        const type = meter.classList.contains("calMeter") ? "calMeter" : "proteinMeter";
 
-    function save() {
-        localStorage.setItem(`value_${type}`, value);
-        localStorage.setItem(`goal_${type}`, goal);
-    }
+        let value = parseInt(localStorage.getItem(`value_${type}`)) || 0;
+        let goal = parseInt(localStorage.getItem(`goal_${type}`)) || 100;
 
-    //Update meter number text and styling
-    function updateMeter() {
-        valueText.textContent = `${value} / ${goal}`;
+        function save() {
+            localStorage.setItem(`value_${type}`, value);
+            localStorage.setItem(`goal_${type}`, goal);
+        }
 
-        const targetPercent = Math.min((value / goal) * 100, 100);
-        let currentPercent = circle._percent || 0;
+        function updateMeter() {
+            valueText.textContent = `${value} / ${goal}`;
 
-        const step = () => {
-            const diff = targetPercent - currentPercent;
+            const targetPercent = Math.min((value / goal) * 100, 100);
+            let currentPercent = circle._percent || 0;
 
-            if (Math.abs(diff) < 0.5) {
-                currentPercent = targetPercent;
-            } else {
-                currentPercent += diff * 0.1;
-                requestAnimationFrame(step);
+            const step = () => {
+                const diff = targetPercent - currentPercent;
+
+                if (Math.abs(diff) < 0.5) {
+                    currentPercent = targetPercent;
+                } else {
+                    currentPercent += diff * 0.1;
+                    requestAnimationFrame(step);
+                }
+
+                let fillColor = "#4DA3FF";
+
+                if (type === "calMeter" && value > goal) {
+                    fillColor = "#1E6FD9";
+                }
+
+                if (type === "proteinMeter" && value >= goal) {
+                    fillColor = "#63B3FF";
+                }
+
+                circle.style.background = `conic-gradient(
+                    #63B3FF 0%,
+                    #1E6FD9 ${currentPercent}%,
+                    #0B2545 ${currentPercent}%
+                )`;
+
+                valueText.style.color = "#EAF2FF";
+                circle._percent = currentPercent;
+            };
+
+            step();
+            save();
+        }
+
+        function getStep() {
+            return parseInt(input.value) || 0;
+        }
+
+        plusBtn.addEventListener("click", () => {
+            value += getStep();
+            updateMeter();
+        });
+
+        minusBtn.addEventListener("click", () => {
+            value = Math.max(0, value - getStep());
+            updateMeter();
+        });
+
+        goalBtn.addEventListener("click", () => {
+            const modal = document.getElementById("goalModal");
+            const goalInput = document.getElementById("goalInput");
+
+            activeMeter = {
+                setGoal: (v) => {
+                    goal = v;
+                    save();
+                },
+                update: updateMeter
+            };
+
+            if (modal && goalInput) {
+                modal.style.display = "flex";
+                goalInput.value = goal;
+                goalInput.focus();
             }
+        });
 
-            let fillColor = "#4DA3FF";
-
-            if (type === "calMeter" && value > goal) {
-                fillColor = "#1E6FD9";
-            }
-
-            if (type === "proteinMeter" && value >= goal) {
-                fillColor = "#63B3FF";
-            }
-
-        circle.style.background = `conic-gradient(
-        #63B3FF 0%,
-        #1E6FD9 ${currentPercent}%,
-        #0B2545 ${currentPercent}%
-)`;
-
-        valueText.style.color = "#EAF2FF";
-
-            circle._percent = currentPercent;
-        };
-
-        step();
-        save();
-    }
-
-    //Get step value
-    function getStep() {
-        return parseInt(input.value) || 0;
-    }
-
-    //add step value
-    plusBtn.addEventListener("click", () => {
-        value += getStep();
         updateMeter();
     });
+}
 
-    //remove step value
-    minusBtn.addEventListener("click", () => {
-        value = Math.max(0, value - getStep());
-        updateMeter();
+
+// Hantera målmodalen
+const goalModal = document.getElementById("goalModal");
+
+if (goalModal) {
+    document.getElementById("goalCancel").addEventListener("click", () => {
+        goalModal.style.display = "none";
     });
 
-    //Open goal modal
-    goalBtn.addEventListener("click", () => {
-        const modal = document.getElementById("goalModal");
-        const goalInput = document.getElementById("goalInput");
+    document.getElementById("goalSave").addEventListener("click", () => {
+        const newGoal = parseInt(document.getElementById("goalInput").value);
 
-        //Store reference to meter
-        activeMeter = {
-            setGoal: (v) => {
-                goal = v;
-                save();
-            },
-            update: updateMeter
-        };
+        if (!isNaN(newGoal) && activeMeter) {
+            activeMeter.setGoal(newGoal);
+            activeMeter.update();
+        }
 
-        modal.style.display = "flex";
-        goalInput.value = goal;
-        goalInput.focus();
+        goalModal.style.display = "none";
     });
+}
 
-    updateMeter();
-});
-
-
-// Modal buttons
-document.getElementById("goalCancel").addEventListener("click", () => {
-    document.getElementById("goalModal").style.display = "none";
-});
-
-document.getElementById("goalSave").addEventListener("click", () => {
-    const newGoal = parseInt(document.getElementById("goalInput").value);
-
-    if (!isNaN(newGoal) && activeMeter) {
-        activeMeter.setGoal(newGoal);
-        activeMeter.update();
-    }
-
-    document.getElementById("goalModal").style.display = "none";
-});
-
+// Hantera övningslistan
 let exercises = JSON.parse(localStorage.getItem("exercises")) || [
     { name: "Bänkpress", sets: 3, reps: 10, done: false },
     { name: "Lutande hantlar", sets: 3, reps: 12, done: false },
@@ -204,8 +202,10 @@ function saveExercises() {
     localStorage.setItem("exercises", JSON.stringify(exercises));
 }
 
+// Rendera övningslistan
 function render() {
     const list = document.getElementById('exercise-list');
+    if (!list) return;
 
     if (exercises.length === 0) {
         list.innerHTML = `<div style="height:100%; display:flex; align-items:center; justify-content:center; text-align:center; color: var(--accent-light); font-weight:500;">Lista över övningar<br>som kan checkas av</div>`;
@@ -238,8 +238,10 @@ function render() {
     });
 }
 
+// Öppna modal för att lägga till/ändra övningar
 function editExercises() {
-    document.getElementById("exerciseModal").style.display = "flex";
+    const modal = document.getElementById("exerciseModal");
+    if (modal) modal.style.display = "flex";
 }
 
 function removeTask(index) {
@@ -248,14 +250,16 @@ function removeTask(index) {
     render();
 }
 
+// Hantera färdigt knappen och visa resultat i en modal
 document.addEventListener("DOMContentLoaded", () => {
+    render();
 
     const finishBtn = document.getElementById('finish-btn');
     const finishModal = document.getElementById("finishModal");
     const finishMessage = document.getElementById("finishMessage");
     const finishClose = document.getElementById("finishClose");
 
-    if (finishBtn) {
+    if (finishBtn && finishModal && finishMessage) {
         finishBtn.addEventListener('click', () => {
             const doneCount = exercises.filter(e => e.done).length;
 
@@ -270,49 +274,47 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    if (finishClose) {
+    if (finishClose && finishModal) {
         finishClose.addEventListener("click", () => {
             finishModal.style.display = "none";
         });
     }
-
 });
 
-document.getElementById("exCancel").addEventListener("click", () => {
-    document.getElementById("exerciseModal").style.display = "none";
-});
+// Hantera övningslistans modal
+const exModal = document.getElementById("exerciseModal");
 
-document.getElementById("exSave").addEventListener("click", () => {
-    const name = document.getElementById("exName").value.trim();
-    const sets = parseInt(document.getElementById("exSets").value);
-    const reps = parseInt(document.getElementById("exReps").value);
-
-    if (!name || isNaN(sets) || isNaN(reps) || sets <= 0 || reps <= 0) {
-        alert("Fyll i giltiga värden!");
-        return;
-    }
-
-    exercises.push({
-        name,
-        sets,
-        reps,
-        done: false
+if (exModal) {
+    document.getElementById("exCancel").addEventListener("click", () => {
+        exModal.style.display = "none";
     });
 
-    saveExercises();
-    render();
+    document.getElementById("exSave").addEventListener("click", () => {
+        const name = document.getElementById("exName").value.trim();
+        const sets = parseInt(document.getElementById("exSets").value);
+        const reps = parseInt(document.getElementById("exReps").value);
 
-    document.getElementById("exName").value = "";
-    document.getElementById("exSets").value = "";
-    document.getElementById("exReps").value = "";
+        if (!name || isNaN(sets) || isNaN(reps) || sets <= 0 || reps <= 0) {
+            alert("Fyll i giltiga värden!");
+            return;
+        }
 
-    document.getElementById("exerciseModal").style.display = "none";
-});
+        exercises.push({ name, sets, reps, done: false });
 
+        saveExercises();
+        render();
+
+        document.getElementById("exName").value = "";
+        document.getElementById("exSets").value = "";
+        document.getElementById("exReps").value = "";
+
+        exModal.style.display = "none";
+    });
+}
+
+// Spara dagens statistik i historiken
 function saveDailyStats() {
-    //Sparar kalorie och protein-värden i en historik lokalt.
     const today = new Date().toISOString().split("T")[0];
-
     let history = JSON.parse(localStorage.getItem("history")) || [];
 
     history = history.filter(entry => entry.date !== today);
@@ -326,36 +328,29 @@ function saveDailyStats() {
     localStorage.setItem("history", JSON.stringify(history));
 }
 
+// Rendera statistikdiagrammet
 function renderChart() {
-    //Renderar ut ett diagram med hjälp av Chart.js
+    const canvas = document.getElementById("statsChart");
+    if (!canvas || typeof Chart === "undefined") return;
+
     let history = JSON.parse(localStorage.getItem("history")) || [];
 
     const labels = history.map(h => h.date);
     const calories = history.map(h => h.calories);
     const protein = history.map(h => h.protein);
 
-    const ctx = document.getElementById("statsChart").getContext("2d");
+    const ctx = canvas.getContext("2d");
 
     new Chart(ctx, {
         type: 'line',
         data: {
             labels,
             datasets: [
-                {
-                    label: 'Kalorier',
-                    data: calories,
-                    tension: 0
-                },
-                {
-                    label: 'Protein',
-                    data: protein,
-                    tension: 0
-                }
+                { label: 'Kalorier', data: calories, tension: 0 },
+                { label: 'Protein', data: protein, tension: 0 }
             ]
         }
     });
 }
 
-// Starta programmet
-render();
 renderChart();

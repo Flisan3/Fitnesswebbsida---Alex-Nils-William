@@ -70,8 +70,8 @@
     <div class="modalContent">
         <h3>Logga in</h3>
 
-        <input type="text" id="loginUser" placeholder="Användarnamn">
-        <input type="password" id="loginPass" placeholder="Lösenord">
+        <input type="text" id="loginUser" placeholder="Användarnamn" required minlength="3" pattern="[A-Za-zÅÄÖåäö\s]+">
+        <input type="password" id="loginPass" placeholder="Lösenord" required minlength="6">
 
         <div class="modalButtons">
             <button id="loginCancel">Avbryt</button>
