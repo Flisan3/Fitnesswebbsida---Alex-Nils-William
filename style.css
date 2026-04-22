@@ -935,7 +935,7 @@ input[type="number"] {
     display: flex;
     justify-content: center;
     padding: 30px 15px;
-    margin: 0px;
+    flex-direction: column;
 }
 
 .about-content {
@@ -955,6 +955,29 @@ input[type="number"] {
     margin-bottom: 10px; 
     color: #EEF4ED; 
     opacity: 0.9; 
+}
+
+.about-layout {
+    display: flex;
+    align-items: center;
+    gap: 40px;
+}
+
+.about-text {
+    flex: 1;
+}
+
+.about-image {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+}
+
+.about-image img {
+    width: 80%;
+    object-fit: cover;
+    object-position: center top;
+    border-radius: 16px;
 }
 
 .contact-card {
@@ -1011,7 +1034,6 @@ input[type="number"] {
     transition: 0.2s;
 }
 
-/* Focus effect */
 .contact-form input:focus,
 .contact-form textarea:focus {
     border-color: var(--accent-light);
