@@ -340,7 +340,7 @@ function saveDailyStats() {
 
 // Rendera statistikdiagrammet med hjälp av Chart.js
 function renderChart() {
-    const canvas = document.getElementById("stasChartt");
+    const canvas = document.getElementById("statsChart"); // FIXED
     if (!canvas || typeof Chart === "undefined") return;
 
     let history = JSON.parse(localStorage.getItem("history")) || [];
