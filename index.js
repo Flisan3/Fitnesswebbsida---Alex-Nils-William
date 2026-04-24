@@ -7,6 +7,7 @@ const hamburger = document.getElementById("fhHamburger");
 const navMenu = document.getElementById("fhNavMenu");
 
 // Hantera hamburgermenyn
+//Toggla aktivitet när hamburgermenyn klickas, och stäng den när en länk klickas.
 if (hamburger && navMenu) {
     hamburger.addEventListener("click", () => {
         navMenu.classList.toggle("active");
@@ -29,6 +30,7 @@ if (hamburger && navMenu) {
 }
 
 // Hantera inloggningsmodalen
+// Öppna den när inloggningsknappen klickas och stängas när avbryt klickas.
 const loginBtn = document.querySelector(".fh-navbar__login-btn");
 const loginModal = document.getElementById("loginModal");
 const loginCancel = document.getElementById("loginCancel");
@@ -54,6 +56,7 @@ if (loginModal) {
 }
 
 // Spara dagens statistik och återställ vid midnatt
+// Om det finns en sparad datum som inte är idag sparas statistiken och dagens värden återställs.
 if (lastDate && lastDate !== today) {
     saveDailyStats();
 
@@ -76,6 +79,8 @@ const metersExist = document.querySelector(".calMeter");
 // Hantera kalorimätare och proteinmätare
 if (metersExist) {
     document.querySelectorAll(".calMeter, .proteinMeter").forEach(meter => {
+
+        // Hämta alla nödvändiga element och data
         const minusBtn = meter.querySelector(".meterControls button:first-child");
         const plusBtn = meter.querySelector(".meterControls button:last-child");
         const input = meter.querySelector(".addInput");
@@ -85,14 +90,19 @@ if (metersExist) {
 
         const type = meter.classList.contains("calMeter") ? "calMeter" : "proteinMeter";
 
+        // Hämta sparade värden eller sätt standardvärden
         let value = parseInt(localStorage.getItem(`value_${type}`)) || 0;
         let goal = parseInt(localStorage.getItem(`goal_${type}`)) || 100;
 
+
+        // Funktion för att spara värden i localStorage
         function save() {
             localStorage.setItem(`value_${type}`, value);
             localStorage.setItem(`goal_${type}`, goal);
         }
 
+        // Funktion för att uppdatera mätaren visuellt
+        // Beräknar den nya procentandelen och animerar övergången.
         function updateMeter() {
             valueText.textContent = `${value} / ${goal}`;
 
@@ -109,16 +119,6 @@ if (metersExist) {
                     requestAnimationFrame(step);
                 }
 
-                let fillColor = "#4DA3FF";
-
-                if (type === "calMeter" && value > goal) {
-                    fillColor = "#1E6FD9";
-                }
-
-                if (type === "proteinMeter" && value >= goal) {
-                    fillColor = "#63B3FF";
-                }
-
                 circle.style.background = `conic-gradient(
                     #63B3FF 0%,
                     #1E6FD9 ${currentPercent}%,
@@ -133,10 +133,12 @@ if (metersExist) {
             save();
         }
 
+        // Funktion för att hämta det aktuella stegvärdet från input-fältet
         function getStep() {
             return parseInt(input.value) || 0;
         }
 
+        // Event listeners för plus och minusknapparna samt målknappen
         plusBtn.addEventListener("click", () => {
             value += getStep();
             updateMeter();
@@ -174,6 +176,7 @@ if (metersExist) {
 // Hantera målmodalen
 const goalModal = document.getElementById("goalModal");
 
+// Stäng modalen när avbryt klickas och spara nytt mål när spara klickas.
 if (goalModal) {
     document.getElementById("goalCancel").addEventListener("click", () => {
         goalModal.style.display = "none";
@@ -198,6 +201,7 @@ let exercises = JSON.parse(localStorage.getItem("exercises")) || [
     { name: "Pushdowns", sets: 4, reps: 15, done: false }
 ];
 
+// Funktion för att spara övningar i localStorage
 function saveExercises() {
     localStorage.setItem("exercises", JSON.stringify(exercises));
 }
@@ -214,12 +218,14 @@ function render() {
 
     list.innerHTML = '';
 
+    //Skapa ett element för varje övning
     exercises.forEach((ex, i) => {
         const item = document.createElement('div');
         item.className = 'ex-item';
 
         const textStyle = ex.done ? 'text-decoration: line-through; opacity: 0.5;' : '';
 
+        // Sätt innre HTML för att inkludera checkbox, label och ta bort knapp
         item.innerHTML = `
             <input type="checkbox" id="check-${i}" ${ex.done ? 'checked' : ''}>
             <label for="check-${i}" style="${textStyle} flex: 1; cursor: pointer;">
@@ -228,6 +234,7 @@ function render() {
             <button onclick="removeTask(${i})" style="background:none; border:none; cursor:pointer; font-size:1.2rem; color: var(--bg-darkest); opacity:0.6;">×</button>
         `;
 
+        // Event listener för checkboxen som togglar statusen
         item.querySelector('input').addEventListener('change', () => {
             exercises[i].done = !exercises[i].done;
             saveExercises();
@@ -238,12 +245,13 @@ function render() {
     });
 }
 
-// Öppna modal för att lägga till/ändra övningar
+// Öppna modal för att lägga till eller ändra övningar
 function editExercises() {
     const modal = document.getElementById("exerciseModal");
     if (modal) modal.style.display = "flex";
 }
 
+// Ta bort en övning från listan
 function removeTask(index) {
     exercises.splice(index, 1);
     saveExercises();
@@ -259,6 +267,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const finishMessage = document.getElementById("finishMessage");
     const finishClose = document.getElementById("finishClose");
 
+    // När "Färdigt" klickas, räkna hur många övningar som är klara och visa det i en modal.
     if (finishBtn && finishModal && finishMessage) {
         finishBtn.addEventListener('click', () => {
             const doneCount = exercises.filter(e => e.done).length;
@@ -284,6 +293,7 @@ document.addEventListener("DOMContentLoaded", () => {
 // Hantera övningslistans modal
 const exModal = document.getElementById("exerciseModal");
 
+// Stäng modalen när avbryt klickas och spara ny övning när spara klickas.
 if (exModal) {
     document.getElementById("exCancel").addEventListener("click", () => {
         exModal.style.display = "none";
@@ -328,9 +338,9 @@ function saveDailyStats() {
     localStorage.setItem("history", JSON.stringify(history));
 }
 
-// Rendera statistikdiagrammet
+// Rendera statistikdiagrammet med hjälp av Chart.js
 function renderChart() {
-    const canvas = document.getElementById("statsChart");
+    const canvas = document.getElementById("stasChartt");
     if (!canvas || typeof Chart === "undefined") return;
 
     let history = JSON.parse(localStorage.getItem("history")) || [];
