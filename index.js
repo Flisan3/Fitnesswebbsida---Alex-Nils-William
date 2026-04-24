@@ -338,12 +338,36 @@ function saveDailyStats() {
     localStorage.setItem("history", JSON.stringify(history));
 }
 
+function generateFakeHistory(days = 30) {
+    const history = [];
+    const today = new Date();
+
+    for (let i = days - 1; i >= 0; i--) {
+        const d = new Date();
+        d.setDate(today.getDate() - i);
+
+        const dateStr = d.toISOString().split("T")[0];
+
+        history.push({
+            date: dateStr,
+            calories: Math.floor(Math.random() * 1500) + 1500, // 1500–3000 kcal
+            protein: Math.floor(Math.random() * 100) + 50      // 50–150 g
+        });
+    }
+
+    return history;
+}
+
 // Rendera statistikdiagrammet med hjälp av Chart.js
 function renderChart() {
     const canvas = document.getElementById("statsChart"); // FIXED
     if (!canvas || typeof Chart === "undefined") return;
 
     let history = JSON.parse(localStorage.getItem("history")) || [];
+
+    if (history.length < 30) {
+        history = generateFakeHistory(30);
+    }
 
     const labels = history.map(h => h.date);
     const calories = history.map(h => h.calories);
