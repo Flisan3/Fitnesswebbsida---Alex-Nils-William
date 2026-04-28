@@ -55,6 +55,29 @@ if (loginModal) {
     });
 }
 
+const loginSubmit = document.getElementById("loginSubmit");
+
+if (loginSubmit) {
+    loginSubmit.addEventListener("click", () => {
+        const username = document.getElementById("loginUser").value.trim();
+        const password = document.getElementById("loginPass").value;
+
+        if (username.length < 3 || password.length < 6) {
+            alert("Fyll i giltigt användarnamn och lösenord!");
+            return;
+        }
+
+        // Spara användare (enkel lösning med localStorage)
+        localStorage.setItem("user", username);
+
+        // Stäng modal
+        loginModal.style.display = "none";
+
+        // (Valfritt) uppdatera UI
+        loginBtn.textContent = username;
+    });
+}
+
 // Spara dagens statistik och återställ vid midnatt
 // Om det finns en sparad datum som inte är idag sparas statistiken och dagens värden återställs.
 if (lastDate && lastDate !== today) {
@@ -388,3 +411,4 @@ function renderChart() {
 }
 
 renderChart();
+
