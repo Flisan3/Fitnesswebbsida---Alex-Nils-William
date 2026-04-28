@@ -410,6 +410,13 @@ function renderChart() {
     });
 }
 
+const image = document.getElementById("easterEggImage");
+if (image) {
+    image.addEventListener("click", () => {
+        window.open("https://www.youtube.com/watch?v=dQw4w9WgXcQ", "_blank");
+    });
+}
+
 const contactForm = document.querySelector(".contact-form");
 
 if (contactForm) {
