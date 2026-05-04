@@ -1,4 +1,5 @@
 *{
+    /*Återställer browser-styling och applicerar egna stilinställningar*/
     margin: 0;
     padding: 0;
     gap: 0;
@@ -8,6 +9,7 @@
 }
 
 :root {
+    /*Standardvariabler för färger*/
     --bg-darkest: #081A2F;
     --bg-card: #0E2A47; 
     --bg-inner: #0C223A; 
@@ -19,6 +21,7 @@
     --text-lightest: #EAF2FF;
 }
 
+ /*Tar bort pilarna från number-inputfälten*/
 input[type="number"]::-webkit-outer-spin-button,
 input[type="number"]::-webkit-inner-spin-button {
     -webkit-appearance: none;
@@ -86,7 +89,8 @@ input {
     text-align: center;
     font-weight: bold;
 }
-
+    
+/*Följande styling är för nav-baren*/
 .fh-navbar {
     display: flex;
     justify-content: space-between;
@@ -102,7 +106,21 @@ input {
 }
 
 .fh-navbar__title {
-    color: rgb(238, 244, 237);
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #EEF4ED;
+    text-decoration: none;
+    color: inherit;      
+ 
+    text-shadow: 0 0 8px rgba(255, 255, 255, 0.15);
+}
+
+.fh-highlight {
+    color: #4DA3FF;
+        text-shadow:
+        0 0 6px rgba(77, 163, 255, 0.6),
+        0 0 12px rgba(77, 163, 255, 0.5),
+        0 0 20px rgba(30, 111, 217, 0.4);
 }
 
 .fh-navbar__menu {
@@ -199,6 +217,7 @@ input {
     background: linear-gradient(135deg, #63B3FF, #1E6FD9);
 }
 
+/*Följande styling är för mätarna*/
 .meters{
     display:flex;
     flex-direction: column;
@@ -315,6 +334,7 @@ input {
     width: 80px;
 }
 
+/*Följande styling är för målmodalen*/
 .goalModal {
     display: none;
     position: fixed;
@@ -409,6 +429,7 @@ input {
     box-shadow: 0 6px 18px rgba(77, 163, 255, 0.45);
 }
 
+/*Följande styling är för övningsmodalen*/
 .exerciseModal {
     display: none;
     position: fixed;
@@ -435,6 +456,7 @@ input {
     font-size: 1rem;
 }
 
+/*Följande styling är för finishmodalen*/
 .finishModal {
     display: none;
     position: fixed;
@@ -495,6 +517,7 @@ input {
     box-shadow: 0 6px 18px rgba(77, 163, 255, 0.45);
 }
 
+/*Följande styling är för loginmodalen*/
 .loginModal {
     display: none;
     position: fixed;
@@ -601,6 +624,7 @@ input {
     margin-top: 5px;
 }
 
+/*Följande styling är för träningsfunktionen*/
 .center-container {
     width: 100%;
     max-width: 800px;
@@ -675,6 +699,7 @@ input {
     gap: 12px;
 }
 
+/*Följande styling är för knappar*/
 .btn {
     padding: 12px;
     cursor: pointer;
@@ -707,6 +732,7 @@ input {
     box-shadow: 0 6px 15px rgba(238, 244, 237, 0.3);
 }
 
+/*Följande styling är för inputfält*/
 .note-input {
     padding: 12px;
     background-color: var(--bg-inner);
@@ -731,6 +757,7 @@ input {
     border-color: var(--text-lightest);
 }
 
+/*Följande styling är för diagrammet*/
 .diagram {
     max-width: 800px;
     margin: 40px auto;
@@ -746,6 +773,7 @@ input {
     height: 300px;
 }
 
+/*Följande styling är för om oss sidan*/
 .about-page {
     display: flex;
     justify-content: center;
@@ -795,6 +823,7 @@ input {
     border-radius: 16px;
 }
 
+/*Följande styling är för kontakt sidan*/
 .contact-card {
     max-width: 800px;
     width: 60%;
@@ -882,6 +911,7 @@ input {
     opacity: 0.6;
 }
 
+/*Responsivitet för olika skärmstorlekar*/
 @media (min-width: 750px) {
     .meters {
         flex-direction: row;
@@ -1045,3 +1075,4 @@ input {
         gap: 20px;
     }
 }
+

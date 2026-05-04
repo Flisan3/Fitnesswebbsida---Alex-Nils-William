@@ -10,15 +10,15 @@
 <body>
 <header class="fh-navbar">
     <div class="fh-navbar__left">
-        <h1 class="fh-navbar__title">
+        <a href="Index.html" class="fh-navbar__title">
             Fitness<span class="fh-highlight">Hub</span>
-        </h1>
+        </a>
     </div>
 
     <nav class="fh-navbar__menu" id="fhNavMenu">
-        <a href="Index.html" class="fh-navbar__link">Home</a>
-        <a href="contact.html" class="fh-navbar__link">Contact</a>
-        <a href="AboutUs.html" class="fh-navbar__link">About us</a>
+        <a href="Index.html" class="fh-navbar__link">Hem</a>
+        <a href="contact.html" class="fh-navbar__link">Kontakt</a>
+        <a href="AboutUs.html" class="fh-navbar__link">Om oss</a>
     </nav>
 
     <div class="fh-navbar__right">
@@ -68,9 +68,9 @@
 
     <div class="loginModal" id="loginModal">
     <div class="modalContent">
-        <h3>Logga in</h3>
+        <h2>Logga in</h2>
 
-        <input type="text" id="loginUser" placeholder="Användarnamn" required minlength="" pattern="[A-Za-zÅÄÖåäö\s]+">
+        <input type="text" id="loginUser" placeholder="Användarnamn" required minlength="4" pattern="[A-Za-zÅÄÖåäö\s]+">
         <input type="password" id="loginPass" placeholder="Lösenord" required minlength="6">
 
         <div class="modalButtons">
