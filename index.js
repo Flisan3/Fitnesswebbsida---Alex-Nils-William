@@ -6,7 +6,6 @@ const lastDate = localStorage.getItem("lastDate");
 const hamburger = document.getElementById("fhHamburger");
 const navMenu = document.getElementById("fhNavMenu");
 
-// Hantera hamburgermenyn
 if (hamburger && navMenu) {
     hamburger.addEventListener("click", () => {
         navMenu.classList.toggle("active");
@@ -28,7 +27,6 @@ if (hamburger && navMenu) {
     });
 }
 
-// Hantera inloggningsmodalen
 const loginBtn = document.querySelector(".fh-navbar__login-btn");
 const loginModal = document.getElementById("loginModal");
 const loginCancel = document.getElementById("loginCancel");
@@ -53,7 +51,6 @@ if (loginModal) {
     });
 }
 
-// Spara dagens statistik och återställ vid midnatt
 if (lastDate && lastDate !== today) {
     saveDailyStats();
 
@@ -73,7 +70,6 @@ if (lastDate !== today) {
 
 const metersExist = document.querySelector(".calMeter");
 
-// Hantera kalorimätare och proteinmätare
 if (metersExist) {
     document.querySelectorAll(".calMeter, .proteinMeter").forEach(meter => {
         const minusBtn = meter.querySelector(".meterControls button:first-child");
@@ -171,7 +167,6 @@ if (metersExist) {
 }
 
 
-// Hantera målmodalen
 const goalModal = document.getElementById("goalModal");
 
 if (goalModal) {
@@ -191,7 +186,6 @@ if (goalModal) {
     });
 }
 
-// Hantera övningslistan
 let exercises = JSON.parse(localStorage.getItem("exercises")) || [
     { name: "Bänkpress", sets: 3, reps: 10, done: false },
     { name: "Lutande hantlar", sets: 3, reps: 12, done: false },
@@ -202,7 +196,6 @@ function saveExercises() {
     localStorage.setItem("exercises", JSON.stringify(exercises));
 }
 
-// Rendera övningslistan
 function render() {
     const list = document.getElementById('exercise-list');
     if (!list) return;
@@ -238,7 +231,6 @@ function render() {
     });
 }
 
-// Öppna modal för att lägga till/ändra övningar
 function editExercises() {
     const modal = document.getElementById("exerciseModal");
     if (modal) modal.style.display = "flex";
@@ -250,7 +242,6 @@ function removeTask(index) {
     render();
 }
 
-// Hantera färdigt knappen och visa resultat i en modal
 document.addEventListener("DOMContentLoaded", () => {
     render();
 
@@ -281,7 +272,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 });
 
-// Hantera övningslistans modal
 const exModal = document.getElementById("exerciseModal");
 
 if (exModal) {
@@ -312,7 +302,6 @@ if (exModal) {
     });
 }
 
-// Spara dagens statistik i historiken
 function saveDailyStats() {
     const today = new Date().toISOString().split("T")[0];
     let history = JSON.parse(localStorage.getItem("history")) || [];
@@ -328,7 +317,6 @@ function saveDailyStats() {
     localStorage.setItem("history", JSON.stringify(history));
 }
 
-// Rendera statistikdiagrammet
 function renderChart() {
     const canvas = document.getElementById("statsChart");
     if (!canvas || typeof Chart === "undefined") return;
